@@ -2,19 +2,20 @@ import math
 import unittest
 
 from src.sigmoid_node import SigmoidNode
+from src.synapse import Synapse
 
 
 class TestSigmoidNode(unittest.TestCase):
 
-    # Test With Two Input Nodes
     def test_constructor_generates_id(self):
         node = SigmoidNode()
         assert node.id != None
         assert node.id != ""
 
-    # Test first layer
-    def test_first_layer_throws_without_starting_inputs_or_synapses(self):
+
+    def test_first_layer_throws_without_starting_input_or_synapses(self):
         node = SigmoidNode()
+        
         node.starting_input = None
         node.input_synapses = None
 
@@ -22,7 +23,29 @@ class TestSigmoidNode(unittest.TestCase):
             node.determine_activation()
 
 
-    # Test clear evaluation state
+    def test_first_layer_throws_if_starting_input_and_synapses_are_present(self):
+        node = SigmoidNode()
+        
+        node.starting_input = 1
+        node.input_synapses = [Synapse()]
+
+        with self.assertRaises(ValueError):
+            node.determine_activation()
+
+
+    def test_first_layer_uses_starting_input_if_no_input_synapses_are_present(self):
+        node = SigmoidNode()
+        
+        node.starting_input = 0.4
+        node.bias = 1
+        
+        node.input_synapses = None
+        
+        node.determine_activation()
+        
+        assert node.activation == self.sigmoid(node.starting_input + node.bias)
+
+
     def test_clear_evaluation_state(self):
         node = SigmoidNode()
         
@@ -33,3 +56,21 @@ class TestSigmoidNode(unittest.TestCase):
 
         assert node.activation == None
         assert node.starting_input == None
+
+
+    def test_throws_if_previous_node_is_not_active(self):
+        node = SigmoidNode()
+        
+        previous_node = SigmoidNode()
+        
+        synapse = Synapse(previous_node, node)
+        
+        node.input_synapses = [synapse]
+        previous_node.activation = None
+
+        with self.assertRaises(ValueError):
+            node.determine_activation()
+
+
+    def sigmoid(self, x):
+        return 1 / (1 + math.exp(-x))

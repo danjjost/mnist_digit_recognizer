@@ -1,15 +1,20 @@
-from typing import List
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.synapse import Synapse
+
+from src.synapse import Synapse
 
 class Node:
-    id: str = None
-    
-    # evaluation state
-    starting_input: float = None
+    def __init__(self) -> None:
+        self.id: str = None
+        
+        # evaluation state
+        self.starting_input: float = None
+        self.activation: float = None
 
-    activation: float = None
+        # predefined state
+        self.bias: float = 0
 
-    # predefined state
-    bias: float = 0
-
-    input_synapses: List['Synapse'] = None
-    output_synapses: List['Synapse'] = None
+        self.input_synapses: List['Synapse'] = []
+        self.output_synapses: List['Synapse'] = []

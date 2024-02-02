@@ -21,7 +21,8 @@ class TestSigmoidNodeSimpleExample(unittest.TestCase):
 
         expected_activation = self.get_expected_activation()
 
-        self.assert_within_tolerance(node, expected_activation)
+        assert math.isclose(node.activation, expected_activation, abs_tol=0.001)
+
 
     def get_expected_activation(self):
         netInput = (1*3) + (0.5*2)
@@ -30,6 +31,7 @@ class TestSigmoidNodeSimpleExample(unittest.TestCase):
         
         return self.sigmoid(netInputWithBias)
     
+    
     def createSynapse(self, activation, weight):
         synapse = Synapse()
         synapse.weight = weight
@@ -37,12 +39,6 @@ class TestSigmoidNodeSimpleExample(unittest.TestCase):
         synapse.input_node.activation = activation
         return synapse
 
-    def sigmoid(self, net_input):
-        return 1 / (1 + math.exp(-net_input))
-    
-    def assert_within_tolerance(self, node, expected_net_output):
-        tolerance = 1e-6
-        error = abs(node.activation - expected_net_output)
-        
-        assert error < tolerance, f"Activation ({node.activation}) does not match expected output ({expected_net_output}) within tolerance ({tolerance})."
 
+    def sigmoid(self, net_input: float):
+        return 1 / (1 + math.exp(-net_input))
