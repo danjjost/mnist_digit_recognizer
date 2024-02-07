@@ -49,3 +49,4 @@ class SigmoidNode(Node):
     def clear_evaluation_state(self) -> None:
         self.activation = None
         self.starting_input = None
+        self.loss = None

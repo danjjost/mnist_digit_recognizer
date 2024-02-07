@@ -15,9 +15,11 @@ class Network():
         self.initialize_node_layers(dimensions)
         self.initialize_synapse_layers(dimensions)
 
+
     def initialize_node_layers(self, dimensions: list[int]):
         for layer_index in range(len(dimensions)):
             self.node_layers.append(self.create_node_layer(dimensions[layer_index]))
+            
             
     def create_node_layer(self, size: int):
         layer: SigmoidNode = []
@@ -26,6 +28,7 @@ class Network():
             layer.append(SigmoidNode())
 
         return layer
+            
             
     def initialize_synapse_layers(self, dimensions: list[int]):
         number_of_synapse_layers = len(dimensions) - 1
@@ -64,3 +67,27 @@ class Network():
                 
     def get_results(self) -> list[float]:
         return [node.activation for node in self.node_layers[-1]]
+
+
+    def calculate_loss(self, expected_output: list[float]):
+        self.validate_for_loss_calculation(expected_output)
+        
+        final_layer = self.node_layers[-1]
+        for node_index in range(len(final_layer)):
+            unsquared_loss = final_layer[node_index].activation - expected_output[node_index]
+            final_layer[node_index].loss = unsquared_loss ** 2
+        
+        unaveraged_loss = sum([node.loss for node in final_layer])
+        self.loss: float = unaveraged_loss / len(final_layer)
+        
+        
+    def validate_for_loss_calculation(self, expected_output: list[float]):
+        expected_number_of_outputs = len(expected_output)
+        final_layer_number_of_nodes = len(self.node_layers[-1])
+        
+        if expected_number_of_outputs != final_layer_number_of_nodes:
+            raise ValueError(f"Expected {expected_number_of_outputs} outputs, but got {final_layer_number_of_nodes}!")
+        
+        for node_index, node in enumerate(self.node_layers[-1]):
+            if node.activation is None:
+                raise ValueError(f"Node '{node.id}' at index '{node_index}' has not been activated!")

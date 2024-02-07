@@ -51,11 +51,13 @@ class TestSigmoidNode(unittest.TestCase):
         
         node.activation = 1
         node.starting_input = 1
+        node.loss = 1
         
         node.clear_evaluation_state()
 
         assert node.activation == None
         assert node.starting_input == None
+        assert node.loss == None
 
 
     def test_throws_if_previous_node_is_not_active(self):

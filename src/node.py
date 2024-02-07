@@ -12,6 +12,7 @@ class Node:
         # evaluation state
         self.starting_input: float = None
         self.activation: float = None
+        self.loss: float = None
 
         # predefined state
         self.bias: float = 0
