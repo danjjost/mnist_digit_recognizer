@@ -10,7 +10,7 @@ class TestNetworkEvaluationSimple(unittest.TestCase):
         network = SimpleNetworkCreator().create_simple_network()
         
         
-        network.evaluate()
+        network.feed_forward()
         
         
         # you can see how this value is calculated in test_network_evaluation.drawio
