@@ -10,7 +10,7 @@ class TestNetworkEvaluationComplex(unittest.TestCase):
         network = ComplexNetworkCreator().create_complex_network()
                 
         
-        network.evaluate()
+        network.feed_forward()
         
         
         self.validate_layer_1_activation(network)

@@ -50,3 +50,4 @@ class SigmoidNode(Node):
         self.activation = None
         self.starting_input = None
         self.loss = None
+        self.gradients = []

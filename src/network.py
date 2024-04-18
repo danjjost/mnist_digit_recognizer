@@ -5,6 +5,7 @@ from src.synapse import Synapse
 class Network():
 
     def __init__(self, dimensions: list[int]):
+        self.learning_rate: float = 1
         self.node_layers: list[list[SigmoidNode]] = []
         self.synapse_layers: list[list[Synapse]] = []
         
@@ -59,7 +60,7 @@ class Network():
                 node.clear_evaluation_state()
                 
                 
-    def evaluate(self):
+    def feed_forward(self):
         for layer in range(len(self.node_layers)):
             for node in range(len(self.node_layers[layer])):
                 self.node_layers[layer][node].determine_activation()
@@ -72,13 +73,17 @@ class Network():
     def calculate_loss(self, expected_output: list[float]):
         self.validate_for_loss_calculation(expected_output)
         
-        final_layer = self.node_layers[-1]
+        final_layer = self.get_final_layer()
         for node_index in range(len(final_layer)):
             unsquared_loss = final_layer[node_index].activation - expected_output[node_index]
             final_layer[node_index].loss = unsquared_loss ** 2
         
         unaveraged_loss = sum([node.loss for node in final_layer])
         self.loss: float = unaveraged_loss / len(final_layer)
+
+    def get_final_layer(self):
+        final_layer = self.node_layers[-1]
+        return final_layer
         
         
     def validate_for_loss_calculation(self, expected_output: list[float]):
@@ -91,3 +96,30 @@ class Network():
         for node_index, node in enumerate(self.node_layers[-1]):
             if node.activation is None:
                 raise ValueError(f"Node '{node.id}' at index '{node_index}' has not been activated!")
+
+
+    def back_propagate(self, expected_output: list[float]):
+        final_layer = self.get_final_layer()
+        
+        for node_index in range(len(final_layer)):
+            node = final_layer[node_index]
+            errorSignal = (expected_output[node_index] - node.activation)
+            self.back_propagate_node(node, errorSignal)
+            
+            
+    def back_propagate_node(self, node: SigmoidNode, errorSignal: float):
+        gradient = errorSignal * node.activation * (1 - node.activation)
+        node.gradients.append(gradient)
+        
+        for synapse in node.input_synapses:
+            synapse.gradients.append(gradient * synapse.input_node.activation)
+            self.back_propagate_node(synapse.input_node, gradient * synapse.weight)
+            
+    def apply_gradients(self):
+        for layer in self.synapse_layers:
+            for synapse in layer:
+                synapse.apply_gradients(self.learning_rate)
+                
+        for layer in self.node_layers:
+            for node in layer:
+                node.apply_gradients(self.learning_rate)
