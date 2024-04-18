@@ -7,7 +7,7 @@ from tests.test_networks.simple_network_creator import SimpleNetworkCreator
 class TestNetworkEvaluationSimple(unittest.TestCase):
     
     def test_network_two_node_evaluation(self):
-        network = SimpleNetworkCreator().create_simple_network()
+        network = SimpleNetworkCreator().create()
         
         
         network.feed_forward()

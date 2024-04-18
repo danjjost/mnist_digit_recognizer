@@ -75,6 +75,13 @@ class TestNetwork(unittest.TestCase):
         assert network.node_layers[1][0].activation == None
         assert network.node_layers[1][0].starting_input == None
     
+    def test_get_synapse_between_returns_correct_synapse(self):
+        network = Network([2, 1])
+
+        synapse = network.get_synapse_between(network.node_layers[0][1].id, network.node_layers[1][0].id)
+        
+        assert synapse.input_node.id == network.node_layers[0][1].id
+        assert synapse.output_node.id == network.node_layers[1][0].id
     
     def synapse_exists(self, synapse_layer, input_node_id, output_node_id):
         for synapse in synapse_layer:

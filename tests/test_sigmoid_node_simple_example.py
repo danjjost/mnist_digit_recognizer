@@ -1,3 +1,4 @@
+from decimal import Decimal
 import math
 import unittest
 from src.node import Node
@@ -13,8 +14,8 @@ class TestSigmoidNodeSimpleExample(unittest.TestCase):
         node.bias = 2
         
         node.input_synapses = [
-            self.createSynapse(activation=1, weight=3),
-            self.createSynapse(activation=0.5, weight=2)
+            self.createSynapse(activation=Decimal(1), weight=Decimal(3)),
+            self.createSynapse(activation=Decimal(0.5), weight=Decimal(2))
         ]
         
         node.determine_activation()
@@ -40,5 +41,5 @@ class TestSigmoidNodeSimpleExample(unittest.TestCase):
         return synapse
 
 
-    def sigmoid(self, net_input: float):
+    def sigmoid(self, net_input: Decimal):
         return 1 / (1 + math.exp(-net_input))
