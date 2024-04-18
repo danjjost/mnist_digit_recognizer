@@ -1,3 +1,4 @@
+from decimal import Decimal
 import math
 import unittest
 
@@ -43,8 +44,7 @@ class TestSigmoidNode(unittest.TestCase):
         
         node.determine_activation()
         
-        assert node.activation == self.sigmoid(node.starting_input + node.bias)
-
+        assert math.isclose(node.activation, self.sigmoid(node.starting_input + node.bias), abs_tol=0.001)
 
     def test_clear_evaluation_state(self):
         node = SigmoidNode()

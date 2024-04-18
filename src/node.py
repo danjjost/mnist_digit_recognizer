@@ -11,16 +11,16 @@ class Node:
         self.id: str = None
         
         # evaluation state
-        self.starting_input: float = None
-        self.activation: float = None
-        self.loss: float = None
-        self.gradients: List[float] = []
+        self.starting_input: Decimal = None
+        self.activation: Decimal = None
+        self.loss: Decimal = None
+        self.gradients: List[Decimal] = []
         
         # predefined state
-        self.bias: float = 0
+        self.bias: Decimal = Decimal('0')
 
         self.input_synapses: List['Synapse'] = []
         self.output_synapses: List['Synapse'] = []
         
-    def apply_gradients(self, learning_rate: float):
+    def apply_gradients(self, learning_rate: Decimal):
         self.bias += learning_rate * sum(self.gradients)

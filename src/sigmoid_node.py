@@ -1,3 +1,4 @@
+from decimal import Decimal
 import uuid
 import math
 
@@ -28,7 +29,7 @@ class SigmoidNode(Node):
             raise ValueError(f"Node '{self.id}' appears to be a first-layer node, but has no starting input! If this is a first-layer node, please explicitly set the starting input.")
 
     def get_net_input(self):
-        net_input = 0
+        net_input = Decimal('0')
         
         if self.starting_input is not None:
             return self.starting_input
@@ -42,8 +43,8 @@ class SigmoidNode(Node):
         return net_input
 
 
-    def activation_function(self, netInput: float) -> float:
-        return 1 / (1 + math.exp(-netInput))
+    def activation_function(self, netInput: Decimal) -> Decimal:
+        return Decimal(1) / (Decimal(1) + Decimal(-netInput).exp())
     
 
     def clear_evaluation_state(self) -> None:
