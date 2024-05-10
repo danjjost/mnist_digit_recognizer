@@ -1,8 +1,19 @@
+from decimal import Decimal
 import unittest
 
-from src.network import Network
+from src.neuralnet.network import Network
+from src.neuralnet.synapse import Synapse
 
 class TestNetwork(unittest.TestCase):
+    
+    def test_network_sets_input_layer(self):
+        network = Network([3, 1])
+        
+        network.set_input([Decimal(0.1), Decimal(0.2), Decimal(0.3)])
+        
+        assert network.node_layers[0][0].starting_input == 0.1
+        assert network.node_layers[0][1].starting_input == 0.2
+        assert network.node_layers[0][2].starting_input == 0.3
     
     def test_network_builds_with_correct_number_of_layers(self):
         network1 = Network([1, 1, 1, 1])
@@ -61,18 +72,18 @@ class TestNetwork(unittest.TestCase):
     def test_network_clears_evaluation_state(self):
         network = Network([1, 1])
         
-        network.node_layers[0][0].activation = 0.5
-        network.node_layers[0][0].starting_input = 0.5
+        network.node_layers[0][0].activation = Decimal(0.5)
+        network.node_layers[0][0].starting_input = Decimal(0.5)
         
-        network.node_layers[1][0].activation = 0.5
-        network.node_layers[1][0].starting_input = 0.5
+        network.node_layers[1][0].activation = Decimal(0.5)
+        network.node_layers[1][0].starting_input = Decimal(0.5)
         
         network.clear_evaluation_state()
         
-        assert network.node_layers[0][0].activation == None
+        assert network.node_layers[0][0].activation == 0
         assert network.node_layers[0][0].starting_input == None
     
-        assert network.node_layers[1][0].activation == None
+        assert network.node_layers[1][0].activation == 0
         assert network.node_layers[1][0].starting_input == None
     
     def test_get_synapse_between_returns_correct_synapse(self):
@@ -83,7 +94,7 @@ class TestNetwork(unittest.TestCase):
         assert synapse.input_node.id == network.node_layers[0][1].id
         assert synapse.output_node.id == network.node_layers[1][0].id
     
-    def synapse_exists(self, synapse_layer, input_node_id, output_node_id):
+    def synapse_exists(self, synapse_layer : list[Synapse], input_node_id: str, output_node_id: str) -> bool:
         for synapse in synapse_layer:
             if synapse.input_node.id == input_node_id and synapse.output_node.id == output_node_id:
                 return True

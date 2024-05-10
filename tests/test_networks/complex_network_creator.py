@@ -1,5 +1,5 @@
 from decimal import Decimal
-from src.network import Network
+from src.neuralnet.network import Network
 
 
 # A more complicated neural network with known values used for testing. 

@@ -2,8 +2,8 @@ from decimal import Decimal
 import math
 import unittest
 
-from src.sigmoid_node import SigmoidNode
-from src.synapse import Synapse
+from src.neuralnet.sigmoid_node import SigmoidNode
+from src.neuralnet.synapse import Synapse
 
 
 class TestSigmoidNode(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestSigmoidNode(unittest.TestCase):
         node = SigmoidNode()
         
         node.starting_input = None
-        node.input_synapses = None
+        node.input_synapses = []
 
         with self.assertRaises(ValueError):
             node.determine_activation()
@@ -27,8 +27,8 @@ class TestSigmoidNode(unittest.TestCase):
     def test_first_layer_throws_if_starting_input_and_synapses_are_present(self):
         node = SigmoidNode()
         
-        node.starting_input = 1
-        node.input_synapses = [Synapse()]
+        node.starting_input = Decimal(1)
+        node.input_synapses = [Synapse(SigmoidNode(), node, Decimal(1))]
 
         with self.assertRaises(ValueError):
             node.determine_activation()
@@ -37,10 +37,10 @@ class TestSigmoidNode(unittest.TestCase):
     def test_first_layer_uses_starting_input_if_no_input_synapses_are_present(self):
         node = SigmoidNode()
         
-        node.starting_input = 0.4
-        node.bias = 1
+        node.starting_input = Decimal(0.4)
+        node.bias = Decimal(1)
         
-        node.input_synapses = None
+        node.input_synapses = []
         
         node.determine_activation()
         
@@ -49,30 +49,33 @@ class TestSigmoidNode(unittest.TestCase):
     def test_clear_evaluation_state(self):
         node = SigmoidNode()
         
-        node.activation = 1
-        node.starting_input = 1
-        node.loss = 1
+        node.activation = Decimal(1)
+        node.starting_input = Decimal(1)
+        node.loss = Decimal(1)
         
         node.clear_evaluation_state()
 
-        assert node.activation == None
+        assert node.activation == 0
+        assert node.loss == 0
+
         assert node.starting_input == None
-        assert node.loss == None
 
 
     def test_throws_if_previous_node_is_not_active(self):
-        node = SigmoidNode()
+        current_node = SigmoidNode()
         
         previous_node = SigmoidNode()
         
-        synapse = Synapse(previous_node, node)
+        synapse = Synapse(previous_node, current_node, Decimal(0))
         
-        node.input_synapses = [synapse]
-        previous_node.activation = None
+        current_node.input_synapses = [synapse]
+        previous_node.activation = None  # type: ignore
 
-        with self.assertRaises(ValueError):
-            node.determine_activation()
+        with self.assertRaises(TypeError):
+            current_node.determine_activation()
 
 
-    def sigmoid(self, x):
-        return 1 / (1 + math.exp(-x))
+    def sigmoid(self, x: Decimal) -> Decimal:
+            eulers_constant = Decimal('2.7182818284590452353602874713527')
+            
+            return Decimal(1) / (Decimal(1) + (eulers_constant ** (-x)))

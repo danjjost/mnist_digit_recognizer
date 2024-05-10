@@ -1,17 +1,16 @@
 from decimal import Decimal
 import math
 import unittest
-from src.node import Node
 
-from src.sigmoid_node import SigmoidNode
-from src.synapse import Synapse
+from src.neuralnet.sigmoid_node import SigmoidNode
+from src.neuralnet.synapse import Synapse
 
 
 class TestSigmoidNodeSimpleExample(unittest.TestCase):
 
     def test_two_input_nodes(self):
         node = SigmoidNode()
-        node.bias = 2
+        node.bias = Decimal(2)
         
         node.input_synapses = [
             self.createSynapse(activation=Decimal(1), weight=Decimal(3)),
@@ -26,18 +25,20 @@ class TestSigmoidNodeSimpleExample(unittest.TestCase):
 
 
     def get_expected_activation(self):
-        netInput = (1*3) + (0.5*2)
+        netInput = (Decimal(1)*Decimal(3)) + (Decimal(0.5)*Decimal(2))
 
         netInputWithBias = netInput + 2
         
         return self.sigmoid(netInputWithBias)
     
     
-    def createSynapse(self, activation, weight):
-        synapse = Synapse()
-        synapse.weight = weight
-        synapse.input_node = Node()
-        synapse.input_node.activation = activation
+    def createSynapse(self, activation: Decimal, weight: Decimal):
+        input_node = SigmoidNode()
+        input_node.activation = activation
+        output_node = SigmoidNode()
+
+        synapse = Synapse(input_node, output_node, weight)
+
         return synapse
 
 

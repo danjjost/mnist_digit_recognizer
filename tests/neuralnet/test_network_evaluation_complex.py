@@ -1,7 +1,7 @@
 from decimal import Decimal
 import math
 import unittest
-from src.network import Network
+from src.neuralnet.network import Network
 
 from tests.helpers.is_close_assert import is_close_assert
 from tests.test_networks.complex_network_creator import ComplexNetworkCreator

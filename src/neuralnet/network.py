@@ -1,16 +1,27 @@
 from decimal import Decimal
-from src.sigmoid_node import SigmoidNode
-from src.synapse import Synapse
+import uuid
+from src.neuralnet.sigmoid_node import SigmoidNode
+from src.neuralnet.synapse import Synapse
 
 
 class Network():
 
     def __init__(self, dimensions: list[int]):
+        self.id = str(uuid.uuid4())
+        
         self.learning_rate: Decimal = Decimal('1')
         self.node_layers: list[list[SigmoidNode]] = []
         self.synapse_layers: list[list[Synapse]] = []
         
         self.initialize(dimensions)
+
+
+    def set_input(self, input_values: list[Decimal]):
+        if len(input_values) != len(self.node_layers[0]):
+            raise ValueError(f"Expected {len(self.node_layers[0])} inputs, but got {len(input_values)}!")
+        
+        for node_index in range(len(input_values)):
+            self.node_layers[0][node_index].starting_input = input_values[node_index]
 
 
     def initialize(self, dimensions: list[int]):
@@ -23,10 +34,10 @@ class Network():
             self.node_layers.append(self.create_node_layer(dimensions[layer_index]))
             
             
-    def create_node_layer(self, size: int):
-        layer: SigmoidNode = []
+    def create_node_layer(self, size: int) -> list[SigmoidNode]:
+        layer: list[SigmoidNode] = []
 
-        for node_index in range(size):
+        for _ in range(size):
             layer.append(SigmoidNode())
 
         return layer
@@ -45,12 +56,12 @@ class Network():
             self.synapse_layers[current_layer_index] = self.create_synapse_layer(current_layer_index, next_layer_index)
 
 
-    def create_synapse_layer(self, current_layer_index: int, next_layer_index: int):
-        synapse_layer = []
+    def create_synapse_layer(self, current_layer_index: int, next_layer_index: int) -> list[Synapse]:
+        synapse_layer: list[Synapse] = []
         
         for current_node in self.node_layers[current_layer_index]:
             for next_node in self.node_layers[next_layer_index]:        
-                synapse_layer.append(Synapse(current_node, next_node))
+                synapse_layer.append(Synapse(current_node, next_node, Decimal(0)))
                 
         return synapse_layer
     
@@ -75,16 +86,33 @@ class Network():
         self.validate_for_loss_calculation(expected_output)
         
         final_layer = self.get_final_layer()
+        
+        self.calculate_node_losses(expected_output, final_layer)
+        
+        unaveraged_loss = self.calculate_unaveraged_loss(final_layer)
+        self.loss: Decimal = unaveraged_loss / Decimal(len(final_layer))
+
+    def calculate_node_losses(self, expected_output: list[Decimal], final_layer: list[SigmoidNode]):
         for node_index in range(len(final_layer)):
             unsquared_loss = final_layer[node_index].activation - expected_output[node_index]
             final_layer[node_index].loss = unsquared_loss ** 2
-        
-        unaveraged_loss = sum([node.loss for node in final_layer])
-        self.loss: Decimal = unaveraged_loss / len(final_layer)
 
-    def get_final_layer(self):
-        final_layer = self.node_layers[-1]
-        return final_layer
+    def calculate_unaveraged_loss(self, final_layer: list[SigmoidNode]):
+        total_unaveraged_loss: Decimal = Decimal(0)
+        
+        for node in final_layer:
+            total_unaveraged_loss += node.loss
+            
+        return total_unaveraged_loss
+
+    
+    def get_final_layer(self) -> list[SigmoidNode]:
+        return self.node_layers[-1]
+    
+    
+    def get_outputs(self) -> list[Decimal]:
+        final_layer = self.get_final_layer()
+        return [node.activation for node in final_layer]    
         
         
     def validate_for_loss_calculation(self, expected_output: list[Decimal]):
@@ -95,7 +123,7 @@ class Network():
             raise ValueError(f"Expected {expected_number_of_outputs} outputs, but got {final_layer_number_of_nodes}!")
         
         for node_index, node in enumerate(self.node_layers[-1]):
-            if node.activation is None:
+            if node.activation is None: # type: ignore
                 raise ValueError(f"Node '{node.id}' at index '{node_index}' has not been activated!")
 
 
@@ -107,7 +135,15 @@ class Network():
             errorSignal = (expected_output[node_index] - node.activation)
             self.back_propagate_node(node, errorSignal)
             
-            
+    
+    def back_propagate_node_index_and_target(self, index: int, target: Decimal):
+        final_layer = self.get_final_layer()
+        node = final_layer[index]
+        errorSignal = (target - node.activation)
+        
+        self.back_propagate_node(node, errorSignal)
+    
+    
     def back_propagate_node(self, node: SigmoidNode, errorSignal: Decimal):
         gradient = errorSignal * node.activation * (Decimal(1) - node.activation)
         node.gradients.append(gradient)
@@ -115,6 +151,7 @@ class Network():
         for synapse in node.input_synapses:
             synapse.gradients.append(gradient * synapse.input_node.activation)
             self.back_propagate_node(synapse.input_node, gradient * synapse.weight)
+            
             
     def apply_gradients(self):
         for layer in self.synapse_layers:
@@ -130,4 +167,6 @@ class Network():
         for synapse_layer in self.synapse_layers:
             for synapse in synapse_layer:
                 if synapse.input_node.id == input_node_id and synapse.output_node.id == output_node_id:
-                    return synapse 
+                    return synapse
+                
+        raise ValueError(f"Synapse between '{input_node_id}' and '{output_node_id}' not found!")
