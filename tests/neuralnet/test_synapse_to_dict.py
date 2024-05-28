@@ -16,4 +16,4 @@ class TestSynapseToDict(unittest.TestCase):
         synapse_dict = SynapseToDict().to_dict(synapse)
 
         self.assertEqual(synapse_dict['id'], synapse.id)
-        self.assertEqual(synapse_dict['weight'], weight)
+        self.assertEqual(Decimal(synapse_dict.get('weight')), weight)

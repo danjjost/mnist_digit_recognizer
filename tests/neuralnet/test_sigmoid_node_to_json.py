@@ -3,8 +3,6 @@ import unittest
 
 from src.neuralnet.sigmoid_node import SigmoidNode
 from src.neuralnet.sigmoid_node_to_dict import SigmoidNodeToDict
-from src.neuralnet.synapse import Synapse
-
 
 class TestSigmoidNodeToDict(unittest.TestCase):
     def test_to_dict_returns_training_state(self):
@@ -19,7 +17,7 @@ class TestSigmoidNodeToDict(unittest.TestCase):
         dict_representation = SigmoidNodeToDict().to_dict(sigmoid_node)
         
         assert dict_representation['id'] == 'test_id' # type: ignore
-        assert dict_representation['bias'] == Decimal(0.5) # type: ignore
+        assert Decimal(dict_representation['bias']) == Decimal(0.5) # type: ignore
         
         # should have no representation for the other fields.
         assert 'activation' not in dict_representation

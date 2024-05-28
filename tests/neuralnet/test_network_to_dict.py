@@ -1,4 +1,5 @@
 from decimal import Decimal
+import json
 import unittest
 
 from src.neuralnet.network import Network
@@ -76,3 +77,34 @@ class TestNetworkToDict(unittest.TestCase):
         
         self.assertEqual(second_synapse.output_node.bias, Decimal(1.5))
         self.assertEqual(second_synapse.output_node.id, output_node_id)
+        
+    def test_dictionary_parsing_to_json(self):
+        network = Network([1,2])
+        #    / O
+        #  O - O
+        
+        network.node_layers[0][0].bias = Decimal(1.2)
+        
+        network.synapse_layers[0][0].weight = Decimal(1.3)
+        network.synapse_layers[0][1].weight = Decimal(1.4)
+        
+        network.node_layers[1][0].bias = Decimal(1.5)
+        network.node_layers[1][1].bias = Decimal(1.6)
+        
+        
+        dictionaryNetwork = NetworkToDict().to_dict(network)
+        
+        json_string = json.dumps(dictionaryNetwork)
+        dict_from_json = json.loads(json_string)
+
+        
+        reconstructedNetwork = NetworkToDict().from_dict(dict_from_json)
+        
+        
+        self.assertEqual(reconstructedNetwork.node_layers[0][0].bias, Decimal(1.2))
+        
+        self.assertEqual(reconstructedNetwork.synapse_layers[0][0].weight, Decimal(1.3))
+        self.assertEqual(reconstructedNetwork.synapse_layers[0][1].weight, Decimal(1.4))
+        
+        self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, Decimal(1.5))
+        self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, Decimal(1.6))

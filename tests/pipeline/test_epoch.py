@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Union
 import unittest
 from unittest.mock import Mock
 
@@ -27,8 +28,8 @@ class TestEpoch(unittest.TestCase):
         network_1 = Network([1, 1])
         network_2 = Network([1, 1])
         
-        network_1.synapse_layers[0][0].weight = 0
-        network_2.synapse_layers[0][0].weight = 0
+        network_1.synapse_layers[0][0].weight = Decimal(0)
+        network_2.synapse_layers[0][0].weight = Decimal(0)
         
         population = [network_1, network_2]
         
@@ -46,7 +47,7 @@ class TestEpoch(unittest.TestCase):
 
         
 class MockCompetition(Competition):
-    def __init__(self, override_weights: Decimal | None = None):
+    def __init__(self, override_weights: Union[Decimal, None] = None):
         self.override_weights = override_weights
     
     def compete(self, challenger: Network, challenged: Network):

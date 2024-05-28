@@ -1,7 +1,6 @@
 import math
 import unittest
 
-from src.neuralnet.network import Network
 from tests.test_networks.simple_network_creator import SimpleNetworkCreator
 
 class TestNetworkEvaluationSimple(unittest.TestCase):

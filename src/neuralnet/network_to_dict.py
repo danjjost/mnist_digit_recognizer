@@ -9,25 +9,19 @@ from src.neuralnet.synapse_to_dict import SynapseDict, SynapseToDict
 
 class NetworkDictionary(TypedDict):
     id: str
-    learning_rate: Decimal
+    learning_rate: str
     node_layers: list[list[NodeDict]]
     synapse_layers: list[list[SynapseDict]]
 
 
-class NetworkToDict():
-    
-    # id: 'str'
-    # node_layers: 'list[list[dict[str, str | Decimal | list[str]]]'
-    # synapse_layers: 'list[list[dict[str, str, Decimal]]'
-    # learning_rate: 'Decimal'
-    
+class NetworkToDict():    
     def to_dict(self, network: Network) -> NetworkDictionary:
         node_layers = self.get_node_layers(network)
         synapse_layers = self.get_synapse_layers(network)
     
         return {
             'id': network.id,
-            'learning_rate': network.learning_rate,
+            'learning_rate': str(network.learning_rate),
             'node_layers': node_layers,
             'synapse_layers': synapse_layers,
         }
