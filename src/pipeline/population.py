@@ -1,6 +1,6 @@
 from src.neuralnet.network import Network
 
 
-class Population():
-    def __init__(self) -> None:
-        self.population: list[Network] = []
+class PopulationDTO():
+    def __init__(self, population: list[Network] | None = None) -> None:
+        self.population = population if population != None else []

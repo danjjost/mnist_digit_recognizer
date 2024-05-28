@@ -19,7 +19,11 @@ class AiPlayer(Player):
         
         move_selection_order = self.get_move_selection_order(move_probabilities)
 
-        return move_selection_order[0]
+        for move_index in move_selection_order:
+            if board.is_valid_move(move_index):
+                return move_index
+            
+        raise ValueError("No valid moves found")
     
     
     def get_move_selection_order(self, move_probabilities: list[Decimal]) -> list[int]:

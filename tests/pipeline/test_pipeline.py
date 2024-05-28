@@ -1,9 +1,8 @@
 import unittest
 from unittest.mock import Mock
 
-from src.neuralnet.network import Network
 from src.pipeline.pipeline import Pipeline
-from src.pipeline.population import Population
+from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifier import PopulationModifier
 
 class TestPipeline(unittest.TestCase):
@@ -13,7 +12,7 @@ class TestPipeline(unittest.TestCase):
         population_modifier = Mock()
         pipeline.add(population_modifier)
         
-        population = Population()
+        population = PopulationDTO()
 
         
         pipeline.run(population)
@@ -21,14 +20,15 @@ class TestPipeline(unittest.TestCase):
         
         population_modifier.run.assert_called_once_with(population)
 
+
     def test_pipeline_returns_the_output_population_from_modifier(self):
         pipeline = Pipeline()
         
         population_modifier = Mock()
         pipeline.add(population_modifier)
         
-        input_population = Population()
-        output_population = Population()
+        input_population = PopulationDTO()
+        output_population = PopulationDTO()
         
         population_modifier.run.return_value = output_population
         
@@ -38,6 +38,7 @@ class TestPipeline(unittest.TestCase):
         
         assert result == output_population, f"Expected {output_population}, got {result}"
         
+        
     def test_pipeline_chains_multiple_population_modifiers(self):
         pipeline = Pipeline()
         
@@ -46,9 +47,9 @@ class TestPipeline(unittest.TestCase):
         pipeline.add(population_modifier_1)
         pipeline.add(population_modifier_2)
         
-        input_population = Population()
-        intermediate_population = Population()
-        output_population = Population()
+        input_population = PopulationDTO()
+        intermediate_population = PopulationDTO()
+        output_population = PopulationDTO()
         
         population_modifier_1.run.return_value = intermediate_population
         population_modifier_2.run.return_value = output_population

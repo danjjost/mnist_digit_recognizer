@@ -1,15 +1,15 @@
-from typing import List
-from src.neuralnet.network import Network
 from src.pipeline.competition import Competition
+from src.pipeline.population import PopulationDTO
+from src.pipeline.population_modifier import PopulationModifier
 
 
-class Epoch():
+class Epoch(PopulationModifier):
     def __init__(self, competition: Competition):
         self.competition = competition
 
-    def run(self, population: list[Network]):
-        for challenger in population:
-            for challenged in population:
+    def run(self, population: PopulationDTO):
+        for challenger in population.population:
+            for challenged in population.population:
                 self.competition.compete(challenger, challenged)
         
         return population

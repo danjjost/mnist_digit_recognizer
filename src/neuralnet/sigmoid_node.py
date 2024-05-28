@@ -62,3 +62,10 @@ class SigmoidNode():
         self.starting_input = None
         self.activation = Decimal(0)
         self.loss = Decimal(0)
+        
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'bias': self.bias,
+        }
+        

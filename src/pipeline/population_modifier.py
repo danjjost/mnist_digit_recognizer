@@ -1,5 +1,5 @@
-from src.neuralnet.network import Network
+from src.pipeline.population import PopulationDTO
 
 class PopulationModifier:
-    def run(self, population: list[Network]) -> list[Network]:
-        pass
+    def run(self, population: PopulationDTO) -> PopulationDTO:
+        raise NotImplementedError("PopulationModifier subclasses must implement run method")
