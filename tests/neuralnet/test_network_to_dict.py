@@ -108,3 +108,16 @@ class TestNetworkToDict(unittest.TestCase):
         
         self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, Decimal(1.5))
         self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, Decimal(1.6))
+        
+    def test_network_properties(self):
+        network = Network([1,2])
+        network.learning_rate = Decimal(0.5)
+        original_id = network.id
+        
+        
+        dictionaryNetwork = NetworkToDict().to_dict(network)
+        reconstructedNetwork = NetworkToDict().from_dict(dictionaryNetwork)
+        
+        
+        self.assertEqual(reconstructedNetwork.id, original_id)
+        self.assertEqual(reconstructedNetwork.learning_rate, Decimal(0.5))
