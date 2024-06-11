@@ -13,6 +13,8 @@ class Network():
         self.node_layers: list[list[SigmoidNode]] = []
         self.synapse_layers: list[list[Synapse]] = []
         
+        self.score = 0
+        
         self.initialize(dimensions)
 
 
@@ -161,6 +163,7 @@ class Network():
         for layer in self.node_layers:
             for node in layer:
                 node.apply_gradients(self.learning_rate)
+                
                 
     
     def get_synapse_between(self,  input_node_id: str, output_node_id: str) -> Synapse:

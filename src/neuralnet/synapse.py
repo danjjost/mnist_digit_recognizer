@@ -25,6 +25,7 @@ class Synapse:
         
     def apply_gradients(self, learning_rate: Decimal):
         self.weight += learning_rate * sum(self.gradients, Decimal('0'))
+        self.gradients.clear()
         
         
     def clear_evaluation_state(self):

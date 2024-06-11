@@ -110,3 +110,19 @@ class TestBoard(unittest.TestCase):
                 Decimal(0.5), Decimal(0.5), Decimal(0.5)
             ]
         )
+        
+    def test_get_winner_returns_empty_string_if_none(self):        
+        board = Board()
+        
+        board.move(0, 'X')
+        board.move(6, 'O')
+        board.move(5, 'X')
+        board.move(1, 'O')
+        board.move(7, 'X')
+        board.move(4, 'O')
+        board.move(2, 'X')
+        board.move(8, 'O')
+        board.move(3, 'X')
+        
+        
+        self.assertEqual(board.get_winner(), '')

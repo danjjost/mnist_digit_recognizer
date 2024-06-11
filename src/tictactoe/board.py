@@ -2,6 +2,7 @@ from decimal import Decimal
 
 
 class Board():
+        
     def __init__(self):
         self.winner = ''
         self.current = [
@@ -57,3 +58,11 @@ class Board():
             else Decimal(0) for square in self.current
         ]
          
+    def from_state(self, digits: list[Decimal]) -> 'Board':
+        self.current = [
+            'X' if digit == Decimal(1)
+            else 'O' if digit == Decimal(0)
+            else '' for digit in digits
+        ]
+        
+        return self

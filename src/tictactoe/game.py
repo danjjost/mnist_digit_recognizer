@@ -1,5 +1,4 @@
 from src.tictactoe.board import Board
-from src.tictactoe.console_player import ConsolePlayer
 from src.tictactoe.player import Player
 
 
@@ -34,7 +33,11 @@ class Game():
             
         self.print_board()
         if self.mute == False:
-            print(f'Player {self.current_player.symbol} wins!')
+            winner = self.board.get_winner()
+            if winner == '':
+                print('It\'s a tie!')
+            else:
+                print(f'Player {winner} wins!')
         
         return self.current_player
         
@@ -66,9 +69,3 @@ class Game():
             self.current_player = self.playerO
         else:
             self.current_player = self.playerX 
-    
-
-if __name__ == '__main__':
-    game = Game(ConsolePlayer('X'), ConsolePlayer('O'), Board())
-    winner = game.play()
-    print(winner.guid)

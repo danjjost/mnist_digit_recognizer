@@ -21,7 +21,7 @@ class SigmoidNode():
         
     def apply_gradients(self, learning_rate: Decimal):
         self.bias += learning_rate * sum(self.gradients)
-
+        self.gradients.clear()
 
     def determine_activation(self) -> Decimal:
         self.validate()

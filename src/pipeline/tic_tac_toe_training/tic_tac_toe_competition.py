@@ -17,7 +17,7 @@ class TicTacToeCompetition(Competition):
         self.x_player.set_network(challenger)
         self.o_player.set_network(challenged)
                 
-        self.game.play(self.x_player, self.o_player)
-
+        self.game.play(self.x_player, self.o_player) 
+    
         self.board_trainer.train(self.game.board, challenger)
         self.board_trainer.train(self.game.board, challenged)
