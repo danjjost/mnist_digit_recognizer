@@ -5,6 +5,7 @@ class PopulationDestroyer():
     
     def destroy(self, population: PopulationDTO, number_to_destroy: int) -> None:
         internal_number_to_destory = number_to_destroy if number_to_destroy < len(population.population) else len(population.population)
+        print(f'Destroying {internal_number_to_destory} individuals from population of {len(population.population)} individuals.')
         
         if number_to_destroy > len(population.population):
             print(f'Warning: Trying to destroy {number_to_destroy} individuals from a population of {len(population.population)}, destroying all individuals instead.')

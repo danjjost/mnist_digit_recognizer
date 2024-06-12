@@ -11,6 +11,7 @@ class PopulationRebuilder():
         self.random = random
         
     def rebuild(self, population: PopulationDTO, number_to_copy: int) -> None:
+        print(f'Rebuilding {number_to_copy} individuals from population of {len(population.population)} individuals.')
         for _ in range(number_to_copy):
             network = self.random.choice(population.population)
             cloned_network = self.deep_clone(network)

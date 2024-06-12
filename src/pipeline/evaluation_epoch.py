@@ -21,8 +21,8 @@ class EvaluationEpoch(PopulationModifier):
             population.min_score = min([network.score for network in population.population])
             population.max_score = max([network.score for network in population.population])
             print(f'Evaluation Epoch complete!')
-            print(f'Average score: {average_score}')
-            print(f'Min score: {min_score}')
-            print(f'Max score: {max_score}')
+            print(f'Average score: {population.average_score}')
+            print(f'Min score: {population.min_score}')
+            print(f'Max score: {population.max_score}')
         except:
             print('Error calculating population metrics')
