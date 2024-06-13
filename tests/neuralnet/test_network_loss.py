@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import math
 import unittest
 
@@ -11,14 +11,14 @@ class TestNetworkLoss(unittest.TestCase):
         
         final_layer = network.node_layers[0]
         
-        final_layer[0].activation = Decimal(0.5)
-        final_layer[1].activation = Decimal(0.4)
-        final_layer[2].activation = Decimal(0.3)
-        final_layer[3].activation = Decimal(0.2)
-        final_layer[4].activation = Decimal(0.1)
+        final_layer[0].activation = float(0.5)
+        final_layer[1].activation = float(0.4)
+        final_layer[2].activation = float(0.3)
+        final_layer[3].activation = float(0.2)
+        final_layer[4].activation = float(0.1)
 
 
-        network.calculate_loss([Decimal(0.5), Decimal(0.4), Decimal(0.3), Decimal(0.2), Decimal(0.1)])
+        network.calculate_loss([float(0.5), float(0.4), float(0.3), float(0.2), float(0.1)])
         
         
         assert final_layer[0].loss == 0.0, f"network.loss was {network.loss}, expected 0.0"
@@ -35,11 +35,11 @@ class TestNetworkLoss(unittest.TestCase):
         
         final_layer = network.node_layers[0]
         
-        final_layer[0].activation = Decimal(0.5)
-        final_layer[1].activation = Decimal(0.4)
+        final_layer[0].activation = float(0.5)
+        final_layer[1].activation = float(0.4)
 
 
-        network.calculate_loss([Decimal(1), Decimal(1)])
+        network.calculate_loss([float(1), float(1)])
         
         
         # (0.5 - 1)^2 = 0.25
@@ -56,8 +56,8 @@ class TestNetworkLoss(unittest.TestCase):
         
         final_layer = network.node_layers[0]
         
-        final_layer[0].activation = Decimal(0.5)
-        final_layer[1].activation = Decimal(0.4)
+        final_layer[0].activation = float(0.5)
+        final_layer[1].activation = float(0.4)
 
         with self.assertRaises(ValueError):
-            network.calculate_loss([Decimal(1), Decimal(1), Decimal(1)])
+            network.calculate_loss([float(1), float(1), float(1)])

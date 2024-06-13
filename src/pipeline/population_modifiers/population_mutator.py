@@ -1,6 +1,4 @@
-from decimal import Decimal
 from random import Random
-from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
 
@@ -8,9 +6,9 @@ from src.pipeline.population import PopulationDTO
 class PopulationMutator():
     # Mutation percent is the chance that a node or synapse will be mutated
     # Mutation step is the scale that a node or synapse will be mutated by. For example, 0.1 would add or subtract a maximum of 0.1 from the node or synapse
-    def __init__(self, mutation_percent: Decimal = Decimal(0.1), mutation_step: Decimal = Decimal(0.1)):
-        self.mutation_percent: Decimal = mutation_percent
-        self.mutation_step: Decimal = mutation_step
+    def __init__(self, mutation_percent: float = float(0.1), mutation_step: float = float(0.1)):
+        self.mutation_percent: float = mutation_percent
+        self.mutation_step: float = mutation_step
     
     def mutate(self, population: PopulationDTO) -> PopulationDTO:
         print(f'Mutating population of {len(population.population)} individuals.')
@@ -37,10 +35,6 @@ class PopulationMutator():
     def should_mutate(self) -> bool:
         return Random().random() < self.mutation_percent
     
-    def get_mutation_value(self) -> Decimal:
+    def get_mutation_value(self) -> float:
         random_between_negative_one_and_one = (Random().random() * 2) - 1
-        unquantized_value =  Decimal(random_between_negative_one_and_one) * Decimal(self.mutation_step)
-        
-        precision = Config().decimal_precision
-        
-        return unquantized_value.quantize(Decimal(10) ** -precision)
+        return random_between_negative_one_and_one * self.mutation_step

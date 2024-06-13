@@ -1,4 +1,3 @@
-from decimal import Decimal
 import unittest
 
 from src.tictactoe.board import Board
@@ -105,9 +104,9 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(
             board.get_current_digits(),
             [
-                Decimal(1), Decimal(0), Decimal(0.5), 
-                Decimal(0.5), Decimal(0.5), Decimal(0.5), 
-                Decimal(0.5), Decimal(0.5), Decimal(0.5)
+                float(1), float(0), float(0.5), 
+                float(0.5), float(0.5), float(0.5), 
+                float(0.5), float(0.5), float(0.5)
             ]
         )
         

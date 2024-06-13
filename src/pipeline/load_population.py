@@ -18,7 +18,7 @@ class LoadPopulation(PopulationModifier):
         population.clear()
 
         population_json = self.file_loader.load(self.path)
-        if population_json is "": 
+        if population_json == "": 
             return population
         
         json_object_list: list[NetworkDictionary] = json.loads(population_json)
@@ -30,6 +30,7 @@ class LoadPopulation(PopulationModifier):
             network = self.network_to_dict.from_dict(json_object)
             population.population.append(network)
             
+        print(f'Loaded population of size {len(population.population)} from {self.path}.')
         return population
     
     def set_path(self, path: str) -> None:

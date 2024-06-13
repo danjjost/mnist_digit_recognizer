@@ -1,6 +1,5 @@
-from decimal import Decimal
+
 import random
-from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifier import PopulationModifier
@@ -31,6 +30,5 @@ class PopulationGenerator(PopulationModifier):
         
         return network
 
-    def random(self) -> Decimal:
-        precision = Config().decimal_precision
-        return Decimal(random.random()).quantize(Decimal(10) ** -precision)
+    def random(self) -> float:
+        return random.random()

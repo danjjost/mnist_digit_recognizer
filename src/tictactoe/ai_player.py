@@ -1,4 +1,3 @@
-from decimal import Decimal
 from src.neuralnet.network import Network
 from src.tictactoe.board import Board
 from src.tictactoe.player import Player
@@ -26,13 +25,13 @@ class AiPlayer(Player):
         raise ValueError("No valid moves found")
     
     
-    def get_move_selection_order(self, move_probabilities: list[Decimal]) -> list[int]:
+    def get_move_selection_order(self, move_probabilities: list[float]) -> list[int]:
         # Create an enumerated list of tuples, where each tuple is (index, probability)
-        indexed_probs: list[tuple[int, Decimal]] = list(enumerate(move_probabilities))
+        indexed_probs: list[tuple[int, float]] = list(enumerate(move_probabilities))
 
         sort_order_descending = True
         
-        if self.get_digit() == Decimal(0):
+        if self.get_digit() == float(0):
             sort_order_descending = False
         
         # Sort the list of tuples based on the probability, in descending order
@@ -63,7 +62,7 @@ class AiPlayer(Player):
         return self.network
 
 
-    def get_move_probabilities(self, board: Board) -> list[Decimal]:
+    def get_move_probabilities(self, board: Board) -> list[float]:
         network = self.try_get_network()
         
         network.set_input(board.get_current_digits())

@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import json
 import unittest
 
@@ -12,13 +12,13 @@ class TestNetworkToDict(unittest.TestCase):
         #    / O
         #  O - O
         
-        network.node_layers[0][0].bias = Decimal(1.2)
+        network.node_layers[0][0].bias = float(1.2)
         
-        network.synapse_layers[0][0].weight = Decimal(1.3)
-        network.synapse_layers[0][1].weight = Decimal(1.4)
+        network.synapse_layers[0][0].weight = float(1.3)
+        network.synapse_layers[0][1].weight = float(1.4)
         
-        network.node_layers[1][0].bias = Decimal(1.5)
-        network.node_layers[1][1].bias = Decimal(1.6)
+        network.node_layers[1][0].bias = float(1.5)
+        network.node_layers[1][1].bias = float(1.6)
         
         
         dictionaryNetwork = NetworkToDict().to_dict(network)
@@ -27,13 +27,13 @@ class TestNetworkToDict(unittest.TestCase):
         reconstructedNetwork = NetworkToDict().from_dict(dictionaryNetwork)
         
         
-        self.assertEqual(reconstructedNetwork.node_layers[0][0].bias, Decimal(1.2))
+        self.assertEqual(reconstructedNetwork.node_layers[0][0].bias, float(1.2))
         
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][0].weight, Decimal(1.3))
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][1].weight, Decimal(1.4))
+        self.assertEqual(reconstructedNetwork.synapse_layers[0][0].weight, float(1.3))
+        self.assertEqual(reconstructedNetwork.synapse_layers[0][1].weight, float(1.4))
         
-        self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, Decimal(1.5))
-        self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, Decimal(1.6))
+        self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, float(1.5))
+        self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, float(1.6))
         
         
     def test_network_to_schema(self):
@@ -52,13 +52,13 @@ class TestNetworkToDict(unittest.TestCase):
         #    / O
         #  O - O
         
-        network.node_layers[0][0].bias = Decimal(1.2)
+        network.node_layers[0][0].bias = float(1.2)
         input_node_id = network.node_layers[0][0].id
         
-        network.synapse_layers[0][1].weight = Decimal(1.3)
+        network.synapse_layers[0][1].weight = float(1.3)
         synapse_id = network.synapse_layers[0][1].id
 
-        network.node_layers[1][1].bias = Decimal(1.5)
+        network.node_layers[1][1].bias = float(1.5)
         output_node_id = network.node_layers[1][1].id
         
         dictionaryNetwork = NetworkToDict().to_dict(network)
@@ -69,13 +69,13 @@ class TestNetworkToDict(unittest.TestCase):
         
         second_synapse = reconstructedNetwork.synapse_layers[0][1]
         
-        self.assertEqual(second_synapse.weight, Decimal(1.3))
+        self.assertEqual(second_synapse.weight, float(1.3))
         self.assertEqual(second_synapse.id, synapse_id)
         
-        self.assertEqual(second_synapse.input_node.bias, Decimal(1.2))
+        self.assertEqual(second_synapse.input_node.bias, float(1.2))
         self.assertEqual(second_synapse.input_node.id, input_node_id)
         
-        self.assertEqual(second_synapse.output_node.bias, Decimal(1.5))
+        self.assertEqual(second_synapse.output_node.bias, float(1.5))
         self.assertEqual(second_synapse.output_node.id, output_node_id)
         
     def test_dictionary_parsing_to_json(self):
@@ -83,13 +83,13 @@ class TestNetworkToDict(unittest.TestCase):
         #    / O
         #  O - O
         
-        network.node_layers[0][0].bias = Decimal(1.2)
+        network.node_layers[0][0].bias = float(1.2)
         
-        network.synapse_layers[0][0].weight = Decimal(1.3)
-        network.synapse_layers[0][1].weight = Decimal(1.4)
+        network.synapse_layers[0][0].weight = float(1.3)
+        network.synapse_layers[0][1].weight = float(1.4)
         
-        network.node_layers[1][0].bias = Decimal(1.5)
-        network.node_layers[1][1].bias = Decimal(1.6)
+        network.node_layers[1][0].bias = float(1.5)
+        network.node_layers[1][1].bias = float(1.6)
         
         
         dictionaryNetwork = NetworkToDict().to_dict(network)
@@ -101,17 +101,17 @@ class TestNetworkToDict(unittest.TestCase):
         reconstructedNetwork = NetworkToDict().from_dict(dict_from_json)
         
         
-        self.assertEqual(reconstructedNetwork.node_layers[0][0].bias, Decimal(1.2))
+        self.assertEqual(reconstructedNetwork.node_layers[0][0].bias, float(1.2))
         
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][0].weight, Decimal(1.3))
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][1].weight, Decimal(1.4))
+        self.assertEqual(reconstructedNetwork.synapse_layers[0][0].weight, float(1.3))
+        self.assertEqual(reconstructedNetwork.synapse_layers[0][1].weight, float(1.4))
         
-        self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, Decimal(1.5))
-        self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, Decimal(1.6))
+        self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, float(1.5))
+        self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, float(1.6))
         
     def test_network_properties(self):
         network = Network([1,2])
-        network.learning_rate = Decimal(0.5)
+        network.learning_rate = float(0.5)
         original_id = network.id
         
         
@@ -120,4 +120,4 @@ class TestNetworkToDict(unittest.TestCase):
         
         
         self.assertEqual(reconstructedNetwork.id, original_id)
-        self.assertEqual(reconstructedNetwork.learning_rate, Decimal(0.5))
+        self.assertEqual(reconstructedNetwork.learning_rate, float(0.5))

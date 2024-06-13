@@ -22,6 +22,7 @@ class SavePopulation(PopulationModifier):
         
         self.file_writer.save(self.path, json_content)
 
+        print(f'Saved population of size {len(population.population)} to {self.path}.')
         return population
 
     def get_json(self, population: PopulationDTO) -> str:

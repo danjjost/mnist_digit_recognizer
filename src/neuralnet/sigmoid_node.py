@@ -1,4 +1,4 @@
-from decimal import Decimal
+import math
 import uuid
 
 from src.neuralnet.synapse import Synapse
@@ -8,22 +8,22 @@ class SigmoidNode():
         self.id = str(uuid.uuid4())
         
         # evaluation state
-        self.starting_input: Decimal | None = None
-        self.activation: Decimal = Decimal(0)
-        self.loss: Decimal = Decimal(0)
-        self.gradients: list[Decimal] = []
+        self.starting_input: float | None = None
+        self.activation: float = float(0)
+        self.loss: float = float(0)
+        self.gradients: list[float] = []
         
         # predefined state
-        self.bias: Decimal = Decimal('0')
+        self.bias: float = float('0')
 
         self.input_synapses: list[Synapse] = []
         self.output_synapses: list[Synapse] = []
         
-    def apply_gradients(self, learning_rate: Decimal):
+    def apply_gradients(self, learning_rate: float):
         self.bias += learning_rate * sum(self.gradients)
         self.gradients.clear()
 
-    def determine_activation(self) -> Decimal:
+    def determine_activation(self) -> float:
         self.validate()
 
         net_input = self.get_net_input()
@@ -43,7 +43,7 @@ class SigmoidNode():
 
 
     def get_net_input(self):
-        net_input = Decimal('0')
+        net_input = float('0')
         
         if self.starting_input is not None:
             return self.starting_input
@@ -54,14 +54,14 @@ class SigmoidNode():
         return net_input
 
 
-    def activation_function(self, netInput: Decimal) -> Decimal:
-        return Decimal(1) / (Decimal(1) + Decimal(-netInput).exp())
+    def activation_function(self, netInput: float) -> float:
+        return 1 / (1 + math.exp(-netInput))
     
 
     def clear_evaluation_state(self) -> None:
         self.starting_input = None
-        self.activation = Decimal(0)
-        self.loss = Decimal(0)
+        self.activation = float(0)
+        self.loss = float(0)
         
     def to_dict(self):
         return {

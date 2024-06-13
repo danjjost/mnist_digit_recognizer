@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import unittest
 
 from src.neuralnet.network import Network
@@ -9,7 +9,7 @@ class TestNetwork(unittest.TestCase):
     def test_network_sets_input_layer(self):
         network = Network([3, 1])
         
-        network.set_input([Decimal(0.1), Decimal(0.2), Decimal(0.3)])
+        network.set_input([float(0.1), float(0.2), float(0.3)])
         
         assert network.node_layers[0][0].starting_input == 0.1
         assert network.node_layers[0][1].starting_input == 0.2
@@ -72,11 +72,11 @@ class TestNetwork(unittest.TestCase):
     def test_network_clears_evaluation_state(self):
         network = Network([1, 1])
         
-        network.node_layers[0][0].activation = Decimal(0.5)
-        network.node_layers[0][0].starting_input = Decimal(0.5)
+        network.node_layers[0][0].activation = float(0.5)
+        network.node_layers[0][0].starting_input = float(0.5)
         
-        network.node_layers[1][0].activation = Decimal(0.5)
-        network.node_layers[1][0].starting_input = Decimal(0.5)
+        network.node_layers[1][0].activation = float(0.5)
+        network.node_layers[1][0].starting_input = float(0.5)
         
         network.clear_evaluation_state()
         

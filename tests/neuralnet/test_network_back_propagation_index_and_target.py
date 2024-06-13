@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import unittest
 
 from tests.test_networks.simple_network_creator import SimpleNetworkCreator
@@ -11,8 +11,8 @@ class TestNetworkBackPropagationSingle(unittest.TestCase):
         typical_backprop_network.feed_forward()
         indexed_backprop_network.feed_forward()
         
-        typical_backprop_network.back_propagate([Decimal('1')])
-        indexed_backprop_network.back_propagate_node_index_and_target(0, Decimal(1))
+        typical_backprop_network.back_propagate([float('1')])
+        indexed_backprop_network.back_propagate_node_index_and_target(0, float(1))
         
         typical_backprop_network.apply_gradients()
         indexed_backprop_network.apply_gradients()

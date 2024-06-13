@@ -1,6 +1,3 @@
-from decimal import Decimal
-
-
 class Board():
         
     def __init__(self):
@@ -51,17 +48,17 @@ class Board():
         return self.get_winner() != '' or self.is_board_full()
     
     
-    def get_current_digits(self) -> list[Decimal]:
+    def get_current_digits(self) -> list[float]:
         return [
-            Decimal(0.5) if square == ''
-            else Decimal(1) if square == 'X' 
-            else Decimal(0) for square in self.current
+            0.5 if square == ''
+            else 1.0 if square == 'X' 
+            else 0.0 for square in self.current
         ]
          
-    def from_state(self, digits: list[Decimal]) -> 'Board':
+    def from_state(self, digits: list[float]) -> 'Board':
         self.current = [
-            'X' if digit == Decimal(1)
-            else 'O' if digit == Decimal(0)
+            'X' if digit == float(1)
+            else 'O' if digit == float(0)
             else '' for digit in digits
         ]
         

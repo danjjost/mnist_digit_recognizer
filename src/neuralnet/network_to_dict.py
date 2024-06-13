@@ -1,5 +1,3 @@
-
-from decimal import Decimal
 from typing import TypedDict
 from src.neuralnet.network import Network
 from src.neuralnet.sigmoid_node import SigmoidNode
@@ -64,7 +62,7 @@ class NetworkToDict():
         network = Network(network_schema)
         
         network.id = dictionary.get('id')
-        network.learning_rate = Decimal(dictionary.get('learning_rate'))
+        network.learning_rate = float(dictionary.get('learning_rate'))
 
         self.set_node_layers(network, dictionary)
         self.set_synapse_layers(network, dictionary)        
@@ -95,7 +93,7 @@ class NetworkToDict():
             dict_node = node_dict_layer[node_index]
             
             node.id = dict_node.get('id') # type: ignore
-            node.bias = Decimal(dict_node.get('bias')) # type: ignore
+            node.bias = float(dict_node.get('bias')) # type: ignore
             
             
     def set_synapse_layers(self, network: Network, dictionary: NetworkDictionary):
@@ -112,4 +110,4 @@ class NetworkToDict():
             
             synapse.id = dict_synapse.get('id')
             
-            synapse.weight = Decimal(dict_synapse.get('weight'))
+            synapse.weight = float(dict_synapse.get('weight'))

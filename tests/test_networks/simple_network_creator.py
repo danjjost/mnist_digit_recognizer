@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 from src.neuralnet.network import Network
 
 
@@ -8,16 +8,16 @@ class SimpleNetworkCreator():
     def create(self):
         network = Network([2, 1])
         
-        network.node_layers[0][0].starting_input = Decimal('1.5')
-        network.node_layers[0][0].bias = Decimal('2')
+        network.node_layers[0][0].starting_input = float('1.5')
+        network.node_layers[0][0].bias = float('2')
         
-        network.node_layers[0][1].starting_input = Decimal('1.1')
-        network.node_layers[0][1].bias = Decimal('3')
+        network.node_layers[0][1].starting_input = float('1.1')
+        network.node_layers[0][1].bias = float('3')
         
-        network.synapse_layers[0][0].weight = Decimal('0.3')
-        network.synapse_layers[0][1].weight = Decimal('0.4')
+        network.synapse_layers[0][0].weight = float('0.3')
+        network.synapse_layers[0][1].weight = float('0.4')
         
-        network.node_layers[1][0].bias = Decimal('1')
+        network.node_layers[1][0].bias = float('1')
         
         return network
         
