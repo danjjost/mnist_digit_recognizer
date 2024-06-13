@@ -1,4 +1,3 @@
-from decimal import Decimal
 import os
 from random import Random
 from typing import Optional
@@ -32,7 +31,8 @@ class BatchLoader():
         for _ in range(batch_size):
             image = self.get_random_image(path)
             mnist_images.append(image)
-            
+        
+        print(f'Loaded batch of size {len(mnist_images)}.')
         return mnist_images            
     
     def get_random_image(self, base_path: str) -> MNISTImage:
@@ -48,13 +48,11 @@ class BatchLoader():
         
         return MNISTImage(image_array, random_digit)
     
-    def load_image(self, file_path: str) -> list[Decimal]:
+    def load_image(self, file_path: str) -> list[float]:
         img = Image.open(file_path) # type: ignore
 
         img_gray = img.convert('L')
         img_array = np.array(img_gray)
         img_array_float = img_array.astype(np.float32) / 255.0
         
-        precision = Config().decimal_precision
-        
-        return [Decimal(x.item()).quantize(Decimal(10) ** -precision) for x in img_array_float.flatten()]
+        return [x.item() for x in img_array_float.flatten()]

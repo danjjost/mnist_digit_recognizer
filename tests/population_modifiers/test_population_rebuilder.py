@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifiers.population_rebuilder import PopulationRebuilder
@@ -7,13 +7,13 @@ from src.pipeline.population_modifiers.population_rebuilder import PopulationReb
 class TestPopulationRebuilder():
     def test_clones_random_members_of_population(self):
         network1 = Network([1])
-        network1.node_layers[0][0].bias = Decimal(0.1)
+        network1.node_layers[0][0].bias = float(0.1)
         
         network2 = Network([1])
-        network1.node_layers[0][0].bias = Decimal(0.2)
+        network1.node_layers[0][0].bias = float(0.2)
         
         network3 = Network([1])
-        network1.node_layers[0][0].bias = Decimal(0.3)
+        network1.node_layers[0][0].bias = float(0.3)
         
         population = PopulationDTO([network1, network2, network3])
         

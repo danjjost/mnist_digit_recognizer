@@ -1,4 +1,3 @@
-from decimal import Decimal
 from typing import Optional
 from config import Config
 from src.digit_recognition.batch_loader import BatchLoader, MNISTImage
@@ -34,11 +33,14 @@ class MNISTEvaluation(Evaluation):
             return self.batch_loader.get_training_batch(self.config.training_batch_size)
     
     def evaluate_image(self, network: Network, image: MNISTImage):
+        print(f'Evaluating image of the number "{image.label}".')
+        
         network.set_input(image.image_array)
         network.feed_forward()
         outputs = network.get_outputs()
         
         likely_digit = self.get_likely_digit(outputs)
+        print(f'Network predicted the number "{likely_digit}", was actually "{image.label}".')
         
         if likely_digit == image.label:
             network.score += 1
@@ -46,11 +48,11 @@ class MNISTEvaluation(Evaluation):
         if not self.is_test:
             network.back_propagate(self.get_expected_output(image))
         
-    def get_likely_digit(self, outputs: list[Decimal]) -> int:
+    def get_likely_digit(self, outputs: list[float]) -> int:
         return outputs.index(max(outputs))
     
-    def get_expected_output(self, image: MNISTImage) -> list[Decimal]:
-        expected_output = [Decimal(0.0)] * 10
-        expected_output[image.label] = Decimal(1.0)
+    def get_expected_output(self, image: MNISTImage) -> list[float]:
+        expected_output = [0.0] * 10
+        expected_output[image.label] = 1.0
         
         return expected_output

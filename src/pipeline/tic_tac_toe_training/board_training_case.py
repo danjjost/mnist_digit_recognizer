@@ -1,7 +1,7 @@
-from decimal import Decimal
+
 
 class BoardTrainingCase():
-    def __init__(self, input_board: list[Decimal], move_index: int, target_value: Decimal):
+    def __init__(self, input_board: list[float], move_index: int, target_value: float):
         self.input_board = input_board
         self.move_index = move_index
         self.target_value = target_value

@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import unittest
 from unittest.mock import MagicMock
 
@@ -37,10 +37,10 @@ class TestLoadPopulation(unittest.TestCase):
         
     def test_load_population_returns_population_parsed_from_population_file_json(self):
         network1 = Network([1,2,3])
-        network1.node_layers[2][2].bias = Decimal(1.3)
+        network1.node_layers[2][2].bias = float(1.3)
         
         network2 = Network([2,2])
-        network2.synapse_layers[0][1].weight = Decimal(1.2)
+        network2.synapse_layers[0][1].weight = float(1.2)
         
         population = PopulationDTO([network1, network2])
         population_json = SavePopulation('').get_json(population)
@@ -54,8 +54,8 @@ class TestLoadPopulation(unittest.TestCase):
         assert len(loaded_population.population) == 2
         assert len(loaded_population.population[0].node_layers) == 3
         assert len(loaded_population.population[1].synapse_layers) == 1
-        assert loaded_population.population[0].node_layers[2][2].bias == Decimal(1.3)
-        assert loaded_population.population[1].synapse_layers[0][1].weight == Decimal(1.2)
+        assert loaded_population.population[0].node_layers[2][2].bias == float(1.3)
+        assert loaded_population.population[1].synapse_layers[0][1].weight == float(1.2)
         
         
         

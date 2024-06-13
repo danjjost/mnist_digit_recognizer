@@ -1,4 +1,3 @@
-from decimal import getcontext
 from config import Config
 from src.digit_recognition.mnist_evaluation import MNISTEvaluation
 from src.file.file_loader import FileLoader
@@ -13,8 +12,6 @@ from src.pipeline.save_population import SavePopulation
 
 if __name__ == "__main__":
     config = Config()
-    getcontext().prec = config.decimal_precision
-
     network_to_dict = NetworkToDict()
     file_loader = FileLoader()
     file_writer = FileWriter()

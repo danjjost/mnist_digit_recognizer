@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import math
 import unittest
 
@@ -27,8 +27,8 @@ class TestSigmoidNode(unittest.TestCase):
     def test_first_layer_throws_if_starting_input_and_synapses_are_present(self):
         node = SigmoidNode()
         
-        node.starting_input = Decimal(1)
-        node.input_synapses = [Synapse(SigmoidNode(), node, Decimal(1))]
+        node.starting_input = float(1)
+        node.input_synapses = [Synapse(SigmoidNode(), node, float(1))]
 
         with self.assertRaises(ValueError):
             node.determine_activation()
@@ -37,8 +37,8 @@ class TestSigmoidNode(unittest.TestCase):
     def test_first_layer_uses_starting_input_if_no_input_synapses_are_present(self):
         node = SigmoidNode()
         
-        node.starting_input = Decimal(0.4)
-        node.bias = Decimal(1)
+        node.starting_input = float(0.4)
+        node.bias = float(1)
         
         node.input_synapses = []
         
@@ -49,9 +49,9 @@ class TestSigmoidNode(unittest.TestCase):
     def test_clear_evaluation_state(self):
         node = SigmoidNode()
         
-        node.activation = Decimal(1)
-        node.starting_input = Decimal(1)
-        node.loss = Decimal(1)
+        node.activation = float(1)
+        node.starting_input = float(1)
+        node.loss = float(1)
         
         node.clear_evaluation_state()
 
@@ -66,7 +66,7 @@ class TestSigmoidNode(unittest.TestCase):
         
         previous_node = SigmoidNode()
         
-        synapse = Synapse(previous_node, current_node, Decimal(0))
+        synapse = Synapse(previous_node, current_node, float(0))
         
         current_node.input_synapses = [synapse]
         previous_node.activation = None  # type: ignore
@@ -75,7 +75,7 @@ class TestSigmoidNode(unittest.TestCase):
             current_node.determine_activation()
 
 
-    def sigmoid(self, x: Decimal) -> Decimal:
-            eulers_constant = Decimal('2.7182818284590452353602874713527')
+    def sigmoid(self, x: float) -> float:
+            eulers_constant = float('2.7182818284590452353602874713527')
             
-            return Decimal(1) / (Decimal(1) + (eulers_constant ** (-x)))
+            return float(1) / (float(1) + (eulers_constant ** (-x)))

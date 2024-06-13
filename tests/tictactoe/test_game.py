@@ -1,6 +1,4 @@
 import unittest
-
-from src.tictactoe.board import Board
 from src.tictactoe.game import Game
 from src.tictactoe.random_player import RandomPlayer
 

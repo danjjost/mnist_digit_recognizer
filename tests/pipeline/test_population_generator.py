@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import unittest
 
 from src.pipeline.population import PopulationDTO
@@ -20,17 +20,17 @@ class TestPopulationGenerator(unittest.TestCase):
         
     def verify_values_dont_match(self, populationDTO: PopulationDTO, count: int, schema: list[int]):
         # all node biases should be different
-        biases: set[Decimal] = set()
+        biases: set[float] = set()
         for network in populationDTO.population:
             for node_layer in network.node_layers:
                 for node in node_layer:
                     biases.add(node.bias)
 
-        learning_rates: set[Decimal] = set()
+        learning_rates: set[float] = set()
         for network in populationDTO.population:
             learning_rates.add(network.learning_rate)
             
-        synapse_weights: set[Decimal] = set()
+        synapse_weights: set[float] = set()
         for network in populationDTO.population:
             for synapse_layer in network.synapse_layers:
                 for synapse in synapse_layer:

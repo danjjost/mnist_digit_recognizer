@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 import unittest
 
 from src.neuralnet.network import Network
@@ -13,8 +13,8 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
         self.blank(network)
         
         
-        temperature = Decimal(50)
-        cloud_cover = Decimal(0.7)
+        temperature = float(50)
+        cloud_cover = float(0.7)
         
         
         network.set_input([temperature, cloud_cover])
@@ -24,7 +24,7 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
         original_output = network.get_outputs()[0]
         
         
-        network.back_propagate([Decimal(1)])
+        network.back_propagate([float(1)])
         
         network.apply_gradients()
         
@@ -39,7 +39,7 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
     
     def test_back_propagation_can_solve_the_problem(self):
         network = Network([2, 1])
-        network.learning_rate = Decimal(0.1)
+        network.learning_rate = float(0.1)
         PopulationGenerator().randomize(network)
         
         rainy_test_cases = WeatherPredictorDataGenerator().generate_rainy_data(5000)
@@ -47,15 +47,15 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
          
         for i in range(3000):
             if i > 1000:
-                network.learning_rate = Decimal(0.01)
+                network.learning_rate = float(0.01)
                 if i > 1500:
-                    network.learning_rate = Decimal(0.001)
+                    network.learning_rate = float(0.001)
                     if i > 2000:
-                        network.learning_rate = Decimal(0.0001)
+                        network.learning_rate = float(0.0001)
                         if i > 3000:
-                            network.learning_rate = Decimal(0.00001)
+                            network.learning_rate = float(0.00001)
                             if i > 4000: 
-                                network.learning_rate = Decimal(0.000001)
+                                network.learning_rate = float(0.000001)
             
             self.train_rainy_case(rainy_test_cases[i], network)
             self.train_sunny_case(sunny_test_cases[i], network)
@@ -71,13 +71,13 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
             network.set_input([rainy_test_cases[i].temperature, rainy_test_cases[i].cloud_cover])
             network.feed_forward()
             
-            if network.get_outputs()[0] > Decimal(0.5):
+            if network.get_outputs()[0] > float(0.5):
                 rainy_correct += 1
                 
             network.set_input([sunny_test_cases[i].temperature, sunny_test_cases[i].cloud_cover])
             network.feed_forward()
             
-            if network.get_outputs()[0] < Decimal(0.5):
+            if network.get_outputs()[0] < float(0.5):
                 sunny_correct += 1
                 
         assert rainy_correct > 70, f"Rainy correct: {rainy_correct}"
@@ -89,7 +89,7 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
 
         network.feed_forward()
 
-        network.back_propagate([Decimal(1)])
+        network.back_propagate([float(1)])
 
         network.apply_gradients()
         
@@ -99,7 +99,7 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
 
         network.feed_forward()
 
-        network.back_propagate([Decimal(0)])
+        network.back_propagate([float(0)])
 
         network.apply_gradients()
         
@@ -107,8 +107,8 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
     def blank(self, network: Network):
         for layer in network.node_layers:
             for node in layer:
-                node.bias = Decimal(0)
+                node.bias = float(0)
 
         for layer in network.synapse_layers:
             for synapse in layer:
-                synapse.weight = Decimal(0)
+                synapse.weight = float(0)

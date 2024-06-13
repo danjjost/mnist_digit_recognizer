@@ -1,4 +1,4 @@
-from decimal import Decimal
+
 from src.pipeline.tic_tac_toe_training.board_training_case import BoardTrainingCase
 from src.tictactoe.board import Board
 
@@ -9,7 +9,7 @@ class BoardEvaluator():
         winner = board.get_winner()
         winning_digit = self.get_digit(winner)
         
-        if(winning_digit == Decimal(0.5)):
+        if(winning_digit == float(0.5)):
             return []
         
         training_cases: list[BoardTrainingCase] = []
@@ -39,19 +39,19 @@ class BoardEvaluator():
         
         raise ValueError("No move found")
         
-    def get_move_target(self, current_board: list[str], move_index: int, winning_digit: Decimal) -> Decimal:
+    def get_move_target(self, current_board: list[str], move_index: int, winning_digit: float) -> float:
         if self.get_digit(current_board[move_index]) == winning_digit:
             return winning_digit
         else:
-            return Decimal(0.5)
+            return float(0.5)
     
-    def get_digit(self, symbol: str) -> Decimal:
+    def get_digit(self, symbol: str) -> float:
         if symbol == "":
-            return Decimal(0.5)
+            return float(0.5)
         elif symbol == "X":
-            return Decimal(1)
+            return float(1)
         else:
-            return Decimal(0)
+            return float(0)
         
-    def get_board_digits(self, string_board: list[str]) -> list[Decimal]:
+    def get_board_digits(self, string_board: list[str]) -> list[float]:
         return [self.get_digit(square) for square in string_board]

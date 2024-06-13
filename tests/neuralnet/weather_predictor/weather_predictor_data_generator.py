@@ -1,5 +1,5 @@
 
-from decimal import Decimal
+
 import random
 
 from tests.neuralnet.weather_predictor.weather_conditions import WeatherConditions
@@ -19,7 +19,7 @@ class WeatherPredictorDataGenerator():
             cloud_cover = random.uniform(self.cloud_cover_cutoff, 1)
 
 
-            rainy_data.append(WeatherConditions(Decimal(temperature), Decimal(cloud_cover)))
+            rainy_data.append(WeatherConditions(float(temperature), float(cloud_cover)))
         
         return rainy_data
        
@@ -32,6 +32,6 @@ class WeatherPredictorDataGenerator():
             temperature = random.uniform(0, self.temperature_cutoff)
             cloud_cover = random.uniform(0, self.cloud_cover_cutoff)
             
-            sunny_data.append(WeatherConditions(Decimal(temperature), Decimal(cloud_cover)))
+            sunny_data.append(WeatherConditions(float(temperature), float(cloud_cover)))
         
         return sunny_data
