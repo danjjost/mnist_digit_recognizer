@@ -111,7 +111,6 @@ class TestNetworkToDict(unittest.TestCase):
         
     def test_network_properties(self):
         network = Network([1,2])
-        network.learning_rate = float(0.5)
         original_id = network.id
         
         
@@ -120,4 +119,3 @@ class TestNetworkToDict(unittest.TestCase):
         
         
         self.assertEqual(reconstructedNetwork.id, original_id)
-        self.assertEqual(reconstructedNetwork.learning_rate, float(0.5))

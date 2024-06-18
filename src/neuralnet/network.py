@@ -1,14 +1,16 @@
+from typing import Optional
 import uuid
+from config import Config
 from src.neuralnet.sigmoid_node import SigmoidNode
 from src.neuralnet.synapse import Synapse
 
 
 class Network():
 
-    def __init__(self, dimensions: list[int]):
+    def __init__(self, dimensions: list[int], config: Optional[Config] = None):
         self.id = str(uuid.uuid4())
+        self.config = config
         
-        self.learning_rate: float = 1.0
         self.node_layers: list[list[SigmoidNode]] = []
         self.synapse_layers: list[list[Synapse]] = []
         
@@ -39,7 +41,7 @@ class Network():
         layer: list[SigmoidNode] = []
 
         for _ in range(size):
-            layer.append(SigmoidNode())
+            layer.append(SigmoidNode(config=self.config))
 
         return layer
             
@@ -62,7 +64,7 @@ class Network():
         
         for current_node in self.node_layers[current_layer_index]:
             for next_node in self.node_layers[next_layer_index]:        
-                synapse_layer.append(Synapse(current_node, next_node, 0.0))
+                synapse_layer.append(Synapse(current_node, next_node, 0.0, config=self.config))
                 
         return synapse_layer
     
@@ -159,11 +161,11 @@ class Network():
     def apply_gradients(self):
         for layer in self.synapse_layers:
             for synapse in layer:
-                synapse.apply_gradients(self.learning_rate)
+                synapse.apply_gradients()
                 
         for layer in self.node_layers:
             for node in layer:
-                node.apply_gradients(self.learning_rate)
+                node.apply_gradients()
                 
                 
     

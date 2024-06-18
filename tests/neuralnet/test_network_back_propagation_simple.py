@@ -1,12 +1,15 @@
 
 import math
 import unittest
+from config import Config
 from tests.test_networks.simple_network_creator import SimpleNetworkCreator
 
 
 class TestNetworkBackPropagation(unittest.TestCase):
     def test_back_propagation(self):
-        network = SimpleNetworkCreator().create()
+        config = Config()
+        config.learning_rate = 1
+        network = SimpleNetworkCreator().create(config)
         
         network.feed_forward()
         
@@ -23,7 +26,9 @@ class TestNetworkBackPropagation(unittest.TestCase):
         assert math.isclose(network.synapse_layers[0][1].weight, float('0.32294'), abs_tol=0.001), f"Expected {float('0.32294')}, got {network.synapse_layers[0][1].weight}"
         
     def test_back_propagation_multiple_gradients(self):
-        network = SimpleNetworkCreator().create()
+        config = Config()
+        config.learning_rate = 1
+        network = SimpleNetworkCreator().create(config)
         
         network.feed_forward()
         

@@ -15,7 +15,7 @@ class PopulationGenerator(PopulationModifier):
         
         for index in range(count):
             print(f'Generating network {index}/{count}')
-            network = Network(schema)
+            network = Network(schema, config=config)
             self.randomize(network)
             networks.append(network)
             
@@ -31,8 +31,6 @@ class PopulationGenerator(PopulationModifier):
         for synapse_layer in network.synapse_layers:
             for synapse in synapse_layer:
                 synapse.weight = self.random()
-                
-        network.learning_rate = self.config.learning_rate
         
         return network
 

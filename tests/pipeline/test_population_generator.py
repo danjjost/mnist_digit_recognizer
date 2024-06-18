@@ -25,10 +25,6 @@ class TestPopulationGenerator(unittest.TestCase):
             for node_layer in network.node_layers:
                 for node in node_layer:
                     biases.add(node.bias)
-
-        learning_rates: set[float] = set()
-        for network in populationDTO.population:
-            learning_rates.add(network.learning_rate)
             
         synapse_weights: set[float] = set()
         for network in populationDTO.population:
@@ -37,7 +33,6 @@ class TestPopulationGenerator(unittest.TestCase):
                     synapse_weights.add(synapse.weight)
 
         assert len(biases) > 1
-        assert len(learning_rates) > 1
         assert len(synapse_weights) > 1
         
     def verify_valid_values(self, populationDTO: PopulationDTO, count: int, schema: list[int]):

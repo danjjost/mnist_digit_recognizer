@@ -24,8 +24,8 @@ class SigmoidNode():
         self.config = config or Config()
         
         
-    def apply_gradients(self, learning_rate: float):
-        self.bias += learning_rate * sum(self.gradients)
+    def apply_gradients(self):
+        self.bias += self.config.learning_rate * sum(self.gradients)
         self.gradients.clear()
 
 

@@ -1,4 +1,5 @@
-from typing import TypedDict
+from typing import Optional, TypedDict
+from config import Config
 from src.neuralnet.network import Network
 from src.neuralnet.sigmoid_node import SigmoidNode
 from src.neuralnet.sigmoid_node_to_dict import NodeDict, SigmoidNodeToDict
@@ -7,7 +8,6 @@ from src.neuralnet.synapse_to_dict import SynapseDict, SynapseToDict
 
 class NetworkDictionary(TypedDict):
     id: str
-    learning_rate: str
     node_layers: list[list[NodeDict]]
     synapse_layers: list[list[SynapseDict]]
 
@@ -19,7 +19,6 @@ class NetworkToDict():
     
         return {
             'id': network.id,
-            'learning_rate': str(network.learning_rate),
             'node_layers': node_layers,
             'synapse_layers': synapse_layers,
         }
@@ -57,12 +56,11 @@ class NetworkToDict():
                 
         return node_dict_layers
     
-    def from_dict(self, dictionary: NetworkDictionary) -> Network:
+    def from_dict(self, dictionary: NetworkDictionary, config: Optional[Config] = None) -> Network:
         network_schema = self.get_network_schema(dictionary)
-        network = Network(network_schema)
+        network = Network(network_schema, config=config or Config())
         
         network.id = dictionary.get('id')
-        network.learning_rate = float(dictionary.get('learning_rate'))
 
         self.set_node_layers(network, dictionary)
         self.set_synapse_layers(network, dictionary)        

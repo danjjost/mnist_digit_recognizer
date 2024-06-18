@@ -28,8 +28,6 @@ class PopulationMutator():
                 if self.should_mutate():
                     synapse.weight += self.get_mutation_value()
                     
-        network.learning_rate += self.get_mutation_value()
-
         return network
     
     def should_mutate(self) -> bool:

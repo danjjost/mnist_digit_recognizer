@@ -1,11 +1,10 @@
 
 import unittest
-
+from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population_generator import PopulationGenerator
 from tests.neuralnet.weather_predictor.weather_conditions import WeatherConditions
 from tests.neuralnet.weather_predictor.weather_predictor_data_generator import WeatherPredictorDataGenerator
-
 
 class TestWeatherPredictionNetwork(unittest.TestCase):
     def test_training_on_single_data_point_inches_closer_to_correctness(self):
@@ -38,24 +37,28 @@ class TestWeatherPredictionNetwork(unittest.TestCase):
         assert back_propagated_output > original_output
     
     def test_back_propagation_can_solve_the_problem(self):
-        network = Network([2, 1])
-        network.learning_rate = float(0.1)
-        PopulationGenerator().randomize(network)
+        config = Config()
+        network = Network([2, 1], config=config)
+        config.learning_rate = float(1)
+        config.initialization_scale = 1
+        population_generator = PopulationGenerator()
+        population_generator.config = config
+        population_generator.randomize(network)
         
         rainy_test_cases = WeatherPredictorDataGenerator().generate_rainy_data(5000)
         sunny_test_cases = WeatherPredictorDataGenerator().generate_sunny_data(5000)
          
         for i in range(3000):
             if i > 1000:
-                network.learning_rate = float(0.01)
+                config.learning_rate = float(0.01)
                 if i > 1500:
-                    network.learning_rate = float(0.001)
+                    config.learning_rate = float(0.001)
                     if i > 2000:
-                        network.learning_rate = float(0.0001)
+                        config.learning_rate = float(0.0001)
                         if i > 3000:
-                            network.learning_rate = float(0.00001)
+                            config.learning_rate = float(0.00001)
                             if i > 4000: 
-                                network.learning_rate = float(0.000001)
+                                config.learning_rate = float(0.000001)
             
             self.train_rainy_case(rainy_test_cases[i], network)
             self.train_sunny_case(sunny_test_cases[i], network)

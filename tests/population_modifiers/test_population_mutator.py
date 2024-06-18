@@ -60,24 +60,3 @@ class TestPopulationMutator(unittest.TestCase):
         
         assert network2.node_layers[0][0].bias == float(0.0)
         assert network2.synapse_layers[0][0].weight == float(0.0)
-        
-    def test_mutates_learning_rate(self):
-        mutator = PopulationMutator(float(1), float(1))
-        
-        network1 = Network([1, 1])
-        network1.learning_rate = float(0.0)
-                
-        network2 = Network([1, 1])
-        network2.learning_rate = float(0.0)
-        
-        population = PopulationDTO([network1, network2])
-        
-        mutator.mutate(population)
-        
-        assert network1.learning_rate != float(0.0)
-        assert network2.learning_rate != float(0.0)
-        
-        assert network1.learning_rate > float(-1.0)
-        assert network1.learning_rate < float(1.0)
-        
-        
