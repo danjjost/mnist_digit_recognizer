@@ -2,20 +2,24 @@
 import math
 import unittest
 
+from config import Config
 from src.neuralnet.sigmoid_node import SigmoidNode
 from src.neuralnet.synapse import Synapse
 
 
 class TestSigmoidNode(unittest.TestCase):
+    def setUp(self):
+        self.config = Config()
+        self.config.debug = True
 
     def test_constructor_generates_id(self):
-        node = SigmoidNode()
+        node = SigmoidNode(self.config)
         assert node.id != None
         assert node.id != ""
 
 
     def test_first_layer_throws_without_starting_input_or_synapses(self):
-        node = SigmoidNode()
+        node = SigmoidNode(self.config)
         
         node.starting_input = None
         node.input_synapses = []
@@ -25,7 +29,7 @@ class TestSigmoidNode(unittest.TestCase):
 
 
     def test_first_layer_throws_if_starting_input_and_synapses_are_present(self):
-        node = SigmoidNode()
+        node = SigmoidNode(self.config)
         
         node.starting_input = float(1)
         node.input_synapses = [Synapse(SigmoidNode(), node, float(1))]
@@ -35,7 +39,7 @@ class TestSigmoidNode(unittest.TestCase):
 
 
     def test_first_layer_uses_starting_input_if_no_input_synapses_are_present(self):
-        node = SigmoidNode()
+        node = SigmoidNode(self.config)
         
         node.starting_input = float(0.4)
         node.bias = float(1)
@@ -47,7 +51,7 @@ class TestSigmoidNode(unittest.TestCase):
         assert math.isclose(node.activation, self.sigmoid(node.starting_input + node.bias), abs_tol=0.001)
 
     def test_clear_evaluation_state(self):
-        node = SigmoidNode()
+        node = SigmoidNode(self.config)
         
         node.activation = float(1)
         node.starting_input = float(1)
@@ -62,9 +66,9 @@ class TestSigmoidNode(unittest.TestCase):
 
 
     def test_throws_if_previous_node_is_not_active(self):
-        current_node = SigmoidNode()
+        current_node = SigmoidNode(self.config)
         
-        previous_node = SigmoidNode()
+        previous_node = SigmoidNode(self.config)
         
         synapse = Synapse(previous_node, current_node, float(0))
         

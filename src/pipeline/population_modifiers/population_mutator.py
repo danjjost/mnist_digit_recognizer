@@ -11,7 +11,7 @@ class PopulationMutator():
         self.mutation_step: float = mutation_step
     
     def mutate(self, population: PopulationDTO) -> PopulationDTO:
-        print(f'Mutating population of {len(population.population)} individuals.')
+        print(f'PopulationMutator - Mutating population of {len(population.population)} individuals.')
         for network in population.population:
             self.mutate_network(network)
             

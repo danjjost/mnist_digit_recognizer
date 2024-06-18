@@ -8,34 +8,43 @@ from PIL import Image
 
 from src.digit_recognition.MNISTImage import MNISTImage
         
-class BatchLoader():
+class ImageLoader():
     def __init__(self, config: Optional[Config], random: Optional[Random]):
         self.config = config or Config()
         self.random = random or Random()
     
-    def get_training_batch(self, batch_size: int) -> list[MNISTImage]:
-        print(f'Loading training batch of size {batch_size}.')
+    
+    def get_training_image(self) -> MNISTImage:
+        
         path = self.config.mnist_training_folder
         
-        return self.get_batch_from_path(path, batch_size)
+        image = self.get_random_image(path)
+        
+        return image
     
-    def get_testing_batch(self, batch_size: int) -> list[MNISTImage]:
-        print(f'Loading testing batch of size {batch_size}.')
+    
+    def get_testing_image(self) -> MNISTImage:
         path = self.config.mnist_testing_folder
         
-        return self.get_batch_from_path(path, batch_size)
+        image = self.get_random_image(path)
         
-    def get_batch_from_path(self, path: str, batch_size: int) -> list[MNISTImage]:
-        mnist_images: list[MNISTImage] = []
+        return image
         
-        for _ in range(batch_size):
-            image = self.get_random_image(path)
-            mnist_images.append(image)
         
-        print(f'Loaded batch of size {len(mnist_images)}.')
-        return mnist_images            
-    
     def get_random_image(self, base_path: str) -> MNISTImage:
+        """
+        Returns a random image from the specified folder.
+        The folder structure should be:
+        
+        - base_path
+        - 0
+            - some_0_image.jpg
+            - another_0_image.jpg
+        - 1
+            - some_1_image.jpg
+            - another_1_image.jpg
+        """
+        
         random_digit = self.random.randint(0, 9)
         path = base_path + str(random_digit)
         
@@ -47,6 +56,7 @@ class BatchLoader():
         image_array = self.load_image(file_path)
         
         return MNISTImage(image_array, random_digit)
+    
     
     def load_image(self, file_path: str) -> list[float]:
         img = Image.open(file_path) # type: ignore

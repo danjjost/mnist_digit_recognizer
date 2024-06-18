@@ -1,30 +1,36 @@
-import math
+from typing import Optional
 import uuid
 
+import numpy as np
+
+from config import Config
 from src.neuralnet.synapse import Synapse
 
 class SigmoidNode():
-    def __init__(self) -> None:        
+    def __init__(self, config: Optional[Config] = None) -> None:        
         self.id = str(uuid.uuid4())
         
         # evaluation state
-        self.starting_input: float | None = None
-        self.activation: float = float(0)
-        self.loss: float = float(0)
+        self.starting_input: Optional[float] = None
+        self.activation: float = 0.0
+        self.loss: float = 0.0
         self.gradients: list[float] = []
         
         # predefined state
-        self.bias: float = float('0')
+        self.bias: float = 0.0
 
         self.input_synapses: list[Synapse] = []
         self.output_synapses: list[Synapse] = []
+        self.config = config or Config()
+        
         
     def apply_gradients(self, learning_rate: float):
         self.bias += learning_rate * sum(self.gradients)
         self.gradients.clear()
 
+
     def determine_activation(self) -> float:
-        self.validate()
+        if self.config.debug: self.validate()
 
         net_input = self.get_net_input()
 
@@ -55,13 +61,13 @@ class SigmoidNode():
 
 
     def activation_function(self, netInput: float) -> float:
-        return 1 / (1 + math.exp(-netInput))
+        return 1.0 / (1.0 + np.exp(-netInput))
     
 
     def clear_evaluation_state(self) -> None:
         self.starting_input = None
-        self.activation = float(0)
-        self.loss = float(0)
+        self.activation = 0.0
+        self.loss = 0.0
         
     def to_dict(self):
         return {

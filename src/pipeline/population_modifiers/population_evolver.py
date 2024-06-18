@@ -23,10 +23,11 @@ class PopulationEvolver(PopulationModifier):
     
     def run(self, population: PopulationDTO) -> PopulationDTO:
         number_to_replace = int(len(population.population) * self.percent_predation)
-        print(f'Evolving {number_to_replace} individuals from population of {len(population.population)} individuals.')
 
         if number_to_replace == 0:
             number_to_replace = 1
+            
+        print(f'PopulationEvolver - Evolving {number_to_replace} individuals from population of {len(population.population)} individuals.')
 
         self.population_destroyer.destroy(population, number_to_replace)
         self.population_rebuilder.rebuild(population, number_to_replace)

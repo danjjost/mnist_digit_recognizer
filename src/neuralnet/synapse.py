@@ -22,9 +22,9 @@ class Synapse:
         
         
     def apply_gradients(self, learning_rate: float):
-        self.weight += learning_rate * sum(self.gradients, float(0))
+        self.weight += learning_rate * sum(self.gradients, 0.0)
         self.gradients.clear()
         
         
     def clear_evaluation_state(self):
-        self.gradients = []
+        self.gradients.clear()

@@ -33,7 +33,7 @@ if __name__ == "__main__":
     pipeline = Pipeline()
 
     pipeline.add(load_population)
-    pipeline.add(evolver)
+    #pipeline.add(evolver)
     pipeline.add(epoch)
     pipeline.add(save_population)
 

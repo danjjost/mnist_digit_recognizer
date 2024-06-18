@@ -1,58 +1,42 @@
 from typing import Optional
-from config import Config
-from src.digit_recognition.batch_loader import BatchLoader, MNISTImage
+from config import Config, NetworkEvaluationMode
+from src.digit_recognition.image_loader import ImageLoader, MNISTImage
+from src.digit_recognition.mnist_image_evaluator import MNISTImageEvaluator
 from src.neuralnet.network import Network
 from src.pipeline.evaluation import Evaluation
 
 
 class MNISTEvaluation(Evaluation):
-    def __init__(self, is_test: Optional[bool] = False, config: Optional[Config] = None, batch_loader: Optional[BatchLoader] = None):
+    
+    def __init__(self, 
+        config: Optional[Config] = None, 
+        batch_loader: Optional[ImageLoader] = None,
+        mnist_image_evaluator: Optional[MNISTImageEvaluator] = None
+    ):
         self.config = config or Config()
-        self.batch_loader = batch_loader or BatchLoader(self.config, None)
-        self.is_test = is_test
+        self.batch_loader = batch_loader or ImageLoader(self.config, None)
+        self.mnist_image_evaluator = mnist_image_evaluator or MNISTImageEvaluator(self.config)
+        
         
     def evaluate(self, network: Network):
-        print(f'Evaluating network {network.id}.')
-        batch = self.get_batch()
-        
         network.score = 0
         
-        for image in batch:
-            self.evaluate_image(network, image)
-        
-        print(f'Network {network.id} scored {network.score} out of {len(batch)}')
-       
-        if not self.is_test:
-            print(f'Applying gradients to network {network.id}.')
-            network.apply_gradients()
+        for _ in range(self.config.training_batch_size):
+            image = self.get_image()
+            self.mnist_image_evaluator.evaluate_image(network, image)
 
-    def get_batch(self) -> list[MNISTImage]:
-        if self.is_test:
-            return self.batch_loader.get_testing_batch(self.config.training_batch_size)
+        self.apply_gradients_if_training(network)
+            
+        print(f'MNISTEvaluation - Network {network.id} scored {network.score}/{self.config.training_batch_size}.')
+
+    def apply_gradients_if_training(self, network: Network):
+        if self.config.mode == NetworkEvaluationMode.TRAIN:
+            print("MNISTEvaluation - Applying Gradients")
+            network.apply_gradients()
+    
+    
+    def get_image(self) -> MNISTImage:
+        if self.config.mode == NetworkEvaluationMode.TEST:
+            return self.batch_loader.get_testing_image()
         else:
-            return self.batch_loader.get_training_batch(self.config.training_batch_size)
-    
-    def evaluate_image(self, network: Network, image: MNISTImage):
-        print(f'Evaluating image of the number "{image.label}".')
-        
-        network.set_input(image.image_array)
-        network.feed_forward()
-        outputs = network.get_outputs()
-        
-        likely_digit = self.get_likely_digit(outputs)
-        print(f'Network predicted the number "{likely_digit}", was actually "{image.label}".')
-        
-        if likely_digit == image.label:
-            network.score += 1
-        
-        if not self.is_test:
-            network.back_propagate(self.get_expected_output(image))
-        
-    def get_likely_digit(self, outputs: list[float]) -> int:
-        return outputs.index(max(outputs))
-    
-    def get_expected_output(self, image: MNISTImage) -> list[float]:
-        expected_output = [0.0] * 10
-        expected_output[image.label] = 1.0
-        
-        return expected_output
+            return self.batch_loader.get_training_image()

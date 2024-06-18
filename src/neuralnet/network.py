@@ -93,10 +93,12 @@ class Network():
         unaveraged_loss = self.calculate_unaveraged_loss(final_layer)
         self.loss: float = unaveraged_loss / float(len(final_layer))
 
+
     def calculate_node_losses(self, expected_output: list[float], final_layer: list[SigmoidNode]):
         for node_index in range(len(final_layer)):
             unsquared_loss = final_layer[node_index].activation - expected_output[node_index]
             final_layer[node_index].loss = unsquared_loss ** 2
+
 
     def calculate_unaveraged_loss(self, final_layer: list[SigmoidNode]):
         total_unaveraged_loss: float = 0.0
@@ -153,7 +155,7 @@ class Network():
             synapse.gradients.append(gradient * synapse.input_node.activation)
             self.back_propagate_node(synapse.input_node, gradient * synapse.weight)
             
-            
+        
     def apply_gradients(self):
         for layer in self.synapse_layers:
             for synapse in layer:
