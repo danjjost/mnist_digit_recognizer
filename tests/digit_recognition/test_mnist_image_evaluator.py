@@ -80,6 +80,28 @@ class TestMNISTImageEvaluator(unittest.TestCase):
 
         
         self.assertEqual(1, network.score)
+    
+    def test_image_evaluator_returns_likely_digit(self):
+        network = self.create_mock_network(output_index=5)
+        network.score = 0
+
+        image = MagicMock(spec=MNISTImage)
+        image_array = [0.0] * 10
+        image.image_array = image_array
+
+        expected_label = 5
+        image.label = expected_label
+        
+        config = MagicMock()
+        config.mode = NetworkEvaluationMode.TRAIN
+        
+        evaluator = MNISTImageEvaluator(config)
+        
+        
+        result = evaluator.evaluate_image(network, image)
+
+
+        self.assertEqual(5, result)
         
     
     def create_mock_network(self, output_index: int):

@@ -24,10 +24,11 @@ class TestMNISTEvaluation(unittest.TestCase):
         self.config = MagicMock(spec=Config)
         self.config.mode = self.TRAINING_MODE
         self.config.training_batch_size = self.BATCH_SIZE
+        self.config.is_guessing_percent = 1.05
 
     
     def test_evaluate_retrieves_batch_of_configured_size(self):
-        network = Network([1,1])
+        network = Network([1,1], self.config)
         self.config.training_batch_size = 10
         
         
@@ -38,17 +39,18 @@ class TestMNISTEvaluation(unittest.TestCase):
         
         
     def test_evaluate_retrieves_testing_batch_when_configured(self):
-        network = Network([1,1])
         self.config.mode = NetworkEvaluationMode.TEST
         self.config.training_batch_size = 10
+        network = Network([1,1], self.config)
         
         self.mnist_evaluation.evaluate(network)
         
         self.assertEqual(self.batch_loader.get_testing_image.call_count, 10)
         
     def test_evaluate_calls_image_evaluator_with_each_image_in_batch(self):
-        network = Network([1,1])
+        network = Network([1,1], self.config)
         mock_image = MagicMock()
+        self.config.training_batch_size = 10
         self.batch_loader.get_training_image.return_value = mock_image
         
         
@@ -56,3 +58,18 @@ class TestMNISTEvaluation(unittest.TestCase):
         
         
         self.mnist_image_evaluator.evaluate_image.assert_any_call(network, mock_image)
+        
+    def test_evaluate_reduces_score_by_one_if_more_than_guessing_threshold_are_the_same(self):
+        self.config.is_guessing_percent = 0.90
+        self.config.is_guessing_penalty = -100
+        network = Network([1,1], self.config)
+        mock_image = MagicMock()
+        
+        self.batch_loader.get_training_image.return_value = mock_image
+        self.mnist_image_evaluator.evaluate_image.return_value = 5
+        
+        
+        self.mnist_evaluation.evaluate(network)
+        
+        
+        self.assertEqual(network.score, -5)

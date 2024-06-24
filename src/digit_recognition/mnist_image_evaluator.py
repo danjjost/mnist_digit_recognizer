@@ -25,6 +25,8 @@ class MNISTImageEvaluator:
             print(f'MNISTImageEvaluator - Back propagating.')
             network.back_propagate(self.get_expected_output(image))
         
+        return likely_digit
+        
     def get_likely_digit(self, outputs: list[float]) -> int:
         return outputs.index(max(outputs))
     

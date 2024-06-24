@@ -1,7 +1,7 @@
 import math
 import unittest
 
-from tests.test_networks.simple_network_creator import SimpleNetworkCreator
+from test_networks.simple_network_creator import SimpleNetworkCreator
 
 class TestNetworkEvaluationSimple(unittest.TestCase):
     

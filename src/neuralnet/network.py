@@ -14,7 +14,7 @@ class Network():
         self.node_layers: list[list[SigmoidNode]] = []
         self.synapse_layers: list[list[Synapse]] = []
         
-        self.score = 0
+        self.score: float = 0
         
         self.initialize(dimensions)
 

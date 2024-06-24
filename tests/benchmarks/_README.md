@@ -1,3 +1,0 @@
-# 🗒️ Benchmarks
-
-These 'Benchmarks' function as specialized tests, designed for both training and evaluating neural networks. Unlike typical unit tests, which are brief and highly specific, these benchmarks are extensive and may occasionally fail due to the inherent randomness in the training processes. They are intended to fully validate the performance and stability of the system throughout development.

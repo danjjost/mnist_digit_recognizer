@@ -16,16 +16,23 @@ class MNISTEvaluation(Evaluation):
         self.config = config or Config()
         self.batch_loader = batch_loader or ImageLoader(self.config, None)
         self.mnist_image_evaluator = mnist_image_evaluator or MNISTImageEvaluator(self.config)
+        self.config.learning_rate = 1
         
         
     def evaluate(self, network: Network):
         network.score = 0
         
+        likely_digits: list[int] = []
+        
         for _ in range(self.config.training_batch_size):
             image = self.get_image()
-            self.mnist_image_evaluator.evaluate_image(network, image)
+            likely_digit = self.mnist_image_evaluator.evaluate_image(network, image)
+            likely_digits.append(likely_digit)
 
         self.apply_gradients_if_training(network)
+        
+        if self.is_guessing(likely_digits):
+            network.score -= self.config.is_guessing_penalty
             
         print(f'MNISTEvaluation - Network {network.id} scored {network.score}/{self.config.training_batch_size}.')
 
@@ -33,7 +40,18 @@ class MNISTEvaluation(Evaluation):
         if self.config.mode == NetworkEvaluationMode.TRAIN:
             print("MNISTEvaluation - Applying Gradients")
             network.apply_gradients()
+
     
+    def is_guessing(self, likely_digits: list[int]) -> bool:
+        if likely_digits == [] or likely_digits == None: # type: ignore
+            return False
+        
+        most_common_digit = max(set(likely_digits), key=likely_digits.count)
+        if likely_digits.count(most_common_digit) / len(likely_digits) > self.config.is_guessing_percent:
+            return True
+        
+        return False
+        
     
     def get_image(self) -> MNISTImage:
         if self.config.mode == NetworkEvaluationMode.TEST:
