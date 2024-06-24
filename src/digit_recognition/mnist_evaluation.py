@@ -42,11 +42,9 @@ class MNISTEvaluation(Evaluation):
             network.apply_gradients()
 
     
-    def is_guessing(self, likely_digits: list[int]) -> bool:
-        if likely_digits == [] or likely_digits == None: # type: ignore
-            return False
-        
+    def is_guessing(self, likely_digits: list[int]) -> bool:        
         most_common_digit = max(set(likely_digits), key=likely_digits.count)
+        
         if likely_digits.count(most_common_digit) / len(likely_digits) > self.config.is_guessing_percent:
             return True
         
