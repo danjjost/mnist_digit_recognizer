@@ -8,7 +8,7 @@ from src.pipeline.load_population import LoadPopulation
 from src.pipeline.pipeline import Pipeline
 from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifiers.population_evolver import PopulationEvolver
-from src.pipeline.population_modifiers.population_genetic_mutator import PopulationGeneticMutator
+from src.pipeline.population_modifiers.population_crosser import PopulationCrosser
 from src.pipeline.population_modifiers.population_mutator import PopulationMutator
 from src.pipeline.save_population import SavePopulation
 
@@ -24,11 +24,11 @@ if __name__ == "__main__":
 
     load_population = LoadPopulation(config.input_file_path, network_to_dict, file_loader)
 
-    mutator = PopulationMutator(config.percent_mutation, config.mutation_step)
+    mutator = PopulationMutator(config)
     evolver = PopulationEvolver(config.percent_predation)
     epoch = EvaluationEpoch(evaluation)
     
-    genetic_mutator = PopulationGeneticMutator(config)
+    genetic_mutator = PopulationCrosser(config)
 
     save_population = SavePopulation(config.output_file_path, network_to_dict, file_writer)
 
@@ -41,6 +41,7 @@ if __name__ == "__main__":
     pipeline.add(epoch)
     pipeline.add(evolver)
     pipeline.add(genetic_mutator)
+    pipeline.add(mutator)
     pipeline.add(save_population)
 
     while True:

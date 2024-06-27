@@ -16,13 +16,15 @@ class MNISTImageEvaluator:
         outputs = network.get_outputs()
         
         likely_digit = self.get_likely_digit(outputs)
-        print(f'MNISTImageEvaluator - Network predicted the number "{likely_digit}", was actually "{image.label}".')
+        if self.config.debug: 
+            print(f'MNISTImageEvaluator - Network predicted the number "{likely_digit}", was actually "{image.label}".')
         
         if likely_digit == image.label:
             network.score += 1
         
         if self.mode == NetworkEvaluationMode.TRAIN:
-            print(f'MNISTImageEvaluator - Back propagating.')
+            if self.config.debug: 
+                print(f'MNISTImageEvaluator - Back propagating.')
             network.back_propagate(self.get_expected_output(image))
         
         return likely_digit
