@@ -3,8 +3,8 @@ from src.digit_recognition.mnist_evaluation import MNISTEvaluation
 from src.file.file_loader import FileLoader
 from src.file.file_writer import FileWriter
 from src.neuralnet.network_to_dict import NetworkToDict
-from src.pipeline.evaluation_epoch import EvaluationEpoch
 from src.pipeline.load_population import LoadPopulation
+from src.pipeline.parallel_evaluation_epoch import ParallelEvaluationEpoch
 from src.pipeline.pipeline import Pipeline
 from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifiers.population_evolver import PopulationEvolver
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     mutator = PopulationMutator(config)
     evolver = PopulationEvolver(config.percent_predation)
-    epoch = EvaluationEpoch(evaluation)
+    epoch = ParallelEvaluationEpoch(evaluation)
     
     genetic_mutator = PopulationCrosser(config)
 
