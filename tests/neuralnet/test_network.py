@@ -2,7 +2,6 @@
 import unittest
 
 from src.neuralnet.network import Network
-from src.neuralnet.synapse import Synapse
 
 class TestNetwork(unittest.TestCase):
     
@@ -48,25 +47,35 @@ class TestNetwork(unittest.TestCase):
     def test_network_builds_with_synapse_connections(self):
         network = Network([1, 2])
         
-        input_node_id = network.node_layers[0][0].id
-        output_node_id_1 = network.node_layers[1][0].id
-        output_node_id_2 = network.node_layers[1][1].id
+        network.node_layers[0][0].bias = float(1.2)
+        network.node_layers[1][0].bias = float(1.3)
+        network.node_layers[1][1].bias = float(1.4)
         
-        assert self.synapse_exists(network.synapse_layers[0], input_node_id, output_node_id_1)
-        assert self.synapse_exists(network.synapse_layers[0], input_node_id, output_node_id_2)
+        
+        synapse_layer = network.synapse_layers[0]
+        
+        assert synapse_layer[0].input_node.bias == 1.2
+        assert synapse_layer[0].output_node.bias == 1.3
+        
+        assert synapse_layer[1].input_node.bias == 1.2
+        assert synapse_layer[1].output_node.bias == 1.4
     
     
     def test_network_builds_synapse_connections_for_hidden_layers(self):
         network = Network([2, 1, 2])
         
-        hidden_layer_node_id = network.node_layers[1][0].id
-        output_node_id_1 = network.node_layers[2][0].id
-        output_node_id_2 = network.node_layers[2][1].id
+        network.node_layers[1][0].bias = float(1.2)
+        network.node_layers[2][0].bias = float(1.3)
+        network.node_layers[2][1].bias = float(1.4)
         
         second_synapse_layer = network.synapse_layers[1]
+
         
-        assert self.synapse_exists(second_synapse_layer, hidden_layer_node_id, output_node_id_1)
-        assert self.synapse_exists(second_synapse_layer, hidden_layer_node_id, output_node_id_2)
+        assert second_synapse_layer[0].input_node.bias == 1.2
+        assert second_synapse_layer[0].output_node.bias == 1.3
+        
+        assert second_synapse_layer[1].input_node.bias == 1.2
+        assert second_synapse_layer[1].output_node.bias == 1.4        
 
 
     def test_network_clears_evaluation_state(self):
@@ -85,18 +94,3 @@ class TestNetwork(unittest.TestCase):
     
         assert network.node_layers[1][0].activation == 0
         assert network.node_layers[1][0].starting_input == None
-    
-    def test_get_synapse_between_returns_correct_synapse(self):
-        network = Network([2, 1])
-
-        synapse = network.get_synapse_between(network.node_layers[0][1].id, network.node_layers[1][0].id)
-        
-        assert synapse.input_node.id == network.node_layers[0][1].id
-        assert synapse.output_node.id == network.node_layers[1][0].id
-    
-    def synapse_exists(self, synapse_layer : list[Synapse], input_node_id: str, output_node_id: str) -> bool:
-        for synapse in synapse_layer:
-            if synapse.input_node.id == input_node_id and synapse.output_node.id == output_node_id:
-                return True
-
-        return False

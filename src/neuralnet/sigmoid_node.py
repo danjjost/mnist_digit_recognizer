@@ -1,6 +1,4 @@
 from typing import Optional
-import uuid
-
 import numpy as np
 
 from config import Config
@@ -8,8 +6,6 @@ from src.neuralnet.synapse import Synapse
 
 class SigmoidNode():
     def __init__(self, config: Optional[Config] = None) -> None:        
-        self.id = str(uuid.uuid4())
-        
         # evaluation state
         self.starting_input: Optional[float] = None
         self.activation: float = 0.0
@@ -41,11 +37,11 @@ class SigmoidNode():
 
     def validate(self):
         if self.starting_input is not None and (len(self.input_synapses) > 0):
-            raise ValueError(f"Node '{self.id}' appears to be a first-layer node, but has input synapses and starting input! If this is a first-layer node, please remove the input synapses.")
+            raise ValueError(f"Node appears to be a first-layer node, but has input synapses and starting input! If this is a first-layer node, please remove the input synapses.")
         
         
         if (len(self.input_synapses) == 0) and self.starting_input is None:
-            raise ValueError(f"Node '{self.id}' appears to be a first-layer node, but has no starting input! If this is a first-layer node, please explicitly set the starting input.")
+            raise ValueError(f"Node appears to be a first-layer node, but has no starting input! If this is a first-layer node, please explicitly set the starting input.")
 
 
     def get_net_input(self):
@@ -71,7 +67,6 @@ class SigmoidNode():
         
     def to_dict(self):
         return {
-            'id': self.id,
             'bias': self.bias,
         }
         

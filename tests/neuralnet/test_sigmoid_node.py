@@ -12,11 +12,6 @@ class TestSigmoidNode(unittest.TestCase):
         self.config = Config()
         self.config.debug = True
 
-    def test_constructor_generates_id(self):
-        node = SigmoidNode(self.config)
-        assert node.id != None
-        assert node.id != ""
-
 
     def test_first_layer_throws_without_starting_input_or_synapses(self):
         node = SigmoidNode(self.config)

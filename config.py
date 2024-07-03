@@ -16,7 +16,7 @@ class Config():
         self.mnist_training_folder: str = "./MNIST/training/"
 
         # The learning rate of the network, affects the speed of gradient descent
-        self.learning_rate: float = 0.001
+        self.learning_rate: float = 0.001 
         
         # The number of training batches to run before evaluating the network and applying gradients
         self.training_batch_size: int = 32
@@ -25,7 +25,7 @@ class Config():
         self.population_size: int = 100
         
         # The number of nodes in each layer of the network
-        self.schema: list[int] = [784, 28, 10]
+        self.schema: list[int] = [784, 196, 28, 10]
         
         # The starting scale of the weights and biases of the network
         self.initialization_scale: float = 0.0001
@@ -36,7 +36,7 @@ class Config():
         self.mutation_step: float = 0.001
         
         # The percent of neurons/synapses that will be crossed over
-        self.cross_percent: float = 0.01
+        self.cross_percent: float = 0.02
         
         # The percent of the population that will be killed off and replaced each generation by the population evolver
         self.percent_predation: float = 0.1

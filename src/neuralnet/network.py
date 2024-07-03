@@ -1,5 +1,4 @@
 from typing import Optional
-import uuid
 from config import Config
 from src.neuralnet.sigmoid_node import SigmoidNode
 from src.neuralnet.synapse import Synapse
@@ -8,7 +7,6 @@ from src.neuralnet.synapse import Synapse
 class Network():
 
     def __init__(self, dimensions: list[int], config: Optional[Config] = None):
-        self.id = str(uuid.uuid4())
         self.config = config
         
         self.node_layers: list[list[SigmoidNode]] = []
@@ -129,7 +127,7 @@ class Network():
         
         for node_index, node in enumerate(self.node_layers[-1]):
             if node.activation is None: # type: ignore
-                raise ValueError(f"Node '{node.id}' at index '{node_index}' has not been activated!")
+                raise ValueError(f"Node at index '{node_index}' has not been activated!")
 
 
     def back_propagate(self, expected_output: list[float]):
@@ -166,13 +164,3 @@ class Network():
         for layer in self.node_layers:
             for node in layer:
                 node.apply_gradients()
-                
-                
-    
-    def get_synapse_between(self,  input_node_id: str, output_node_id: str) -> Synapse:
-        for synapse_layer in self.synapse_layers:
-            for synapse in synapse_layer:
-                if synapse.input_node.id == input_node_id and synapse.output_node.id == output_node_id:
-                    return synapse
-                
-        raise ValueError(f"Synapse between '{input_node_id}' and '{output_node_id}' not found!")

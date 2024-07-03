@@ -13,7 +13,7 @@ class TestSavePopulation(unittest.TestCase):
         self.path = "./test_population_1.json"
         
         self.mock_network_to_dict = MagicMock(spec=NetworkToDict)
-        self.mock_network_to_dict.to_dict.return_value = {"id": "1"} 
+        self.mock_network_to_dict.to_dict.return_value = { } 
         
         self.mock_file_writer = MagicMock(spec=FileWriter)
         

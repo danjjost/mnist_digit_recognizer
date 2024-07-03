@@ -27,5 +27,4 @@ class PopulationRebuilder():
     def clone(self, network: Network):
         dictionary = NetworkToDict().to_dict(network) 
         new_network = NetworkToDict().from_dict(dictionary)
-        new_network.id = str(uuid.uuid4())
         return new_network

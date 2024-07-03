@@ -7,7 +7,6 @@ from src.neuralnet.sigmoid_node_to_dict import SigmoidNodeToDict
 class TestSigmoidNodeToDict(unittest.TestCase):
     def test_to_dict_returns_training_state(self):
         sigmoid_node = SigmoidNode()
-        sigmoid_node.id = 'test_id'
         sigmoid_node.bias = float(0.5)
         
         sigmoid_node.activation = float(0.2)
@@ -16,7 +15,6 @@ class TestSigmoidNodeToDict(unittest.TestCase):
         
         dict_representation = SigmoidNodeToDict().to_dict(sigmoid_node)
         
-        assert dict_representation['id'] == 'test_id' # type: ignore
         assert float(dict_representation['bias']) == float(0.5) # type: ignore
         
         # should have no representation for the other fields.

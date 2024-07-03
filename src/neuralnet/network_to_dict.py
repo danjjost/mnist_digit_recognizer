@@ -7,7 +7,6 @@ from src.neuralnet.synapse import Synapse
 from src.neuralnet.synapse_to_dict import SynapseDict, SynapseToDict
 
 class NetworkDictionary(TypedDict):
-    id: str
     node_layers: list[list[NodeDict]]
     synapse_layers: list[list[SynapseDict]]
 
@@ -18,7 +17,6 @@ class NetworkToDict():
         synapse_layers = self.get_synapse_layers(network)
     
         return {
-            'id': network.id,
             'node_layers': node_layers,
             'synapse_layers': synapse_layers,
         }
@@ -59,8 +57,6 @@ class NetworkToDict():
     def from_dict(self, dictionary: NetworkDictionary, config: Optional[Config] = None) -> Network:
         network_schema = self.get_network_schema(dictionary)
         network = Network(network_schema, config=config or Config())
-        
-        network.id = dictionary.get('id')
 
         self.set_node_layers(network, dictionary)
         self.set_synapse_layers(network, dictionary)        
@@ -90,7 +86,6 @@ class NetworkToDict():
             node = node_layer[node_index]
             dict_node = node_dict_layer[node_index]
             
-            node.id = dict_node.get('id') # type: ignore
             node.bias = float(dict_node.get('bias')) # type: ignore
             
             
@@ -105,7 +100,5 @@ class NetworkToDict():
         for synapse_index in range(len(synapse_layer)):
             synapse = synapse_layer[synapse_index]
             dict_synapse = synapse_dict_layer[synapse_index]
-            
-            synapse.id = dict_synapse.get('id')
             
             synapse.weight = float(dict_synapse.get('weight'))

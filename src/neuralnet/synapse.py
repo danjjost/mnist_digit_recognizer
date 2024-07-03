@@ -12,8 +12,6 @@ class Synapse:
         
         output_node.input_synapses.append(self)
 
-        self.id = str(uuid.uuid4())
-        
         # evaluation state
         self.gradients: list[float] = []
         

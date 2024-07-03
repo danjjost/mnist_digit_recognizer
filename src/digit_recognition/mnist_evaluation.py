@@ -34,11 +34,14 @@ class MNISTEvaluation(Evaluation):
         if self.is_guessing(likely_digits):
             network.score -= self.config.is_guessing_penalty
             
-        print(f'MNISTEvaluation - Network {network.id} scored {network.score}/{self.config.training_batch_size}.')
+        if self.config.debug:
+            print(f'MNISTEvaluation - Network scored {network.score}/{self.config.training_batch_size}.')
 
     def apply_gradients_if_training(self, network: Network):
         if self.config.mode == NetworkEvaluationMode.TRAIN:
-            print("MNISTEvaluation - Applying Gradients")
+            if self.config.debug:
+                print("MNISTEvaluation - Applying Gradients")
+            
             network.apply_gradients()
 
     

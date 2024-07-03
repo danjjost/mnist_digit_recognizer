@@ -29,14 +29,14 @@ class ComplexNetworkCreator():
     
         
     def set_synapse_layer_1(self, network: Network):
-        network.get_synapse_between(network.node_layers[0][0].id, network.node_layers[1][0].id).weight = float('0.1')
-        network.get_synapse_between(network.node_layers[0][0].id, network.node_layers[1][1].id).weight = float('0.4')
-        network.get_synapse_between(network.node_layers[0][0].id, network.node_layers[1][2].id).weight = float('0.5')
+        network.synapse_layers[0][0].weight = float('0.1')
+        network.synapse_layers[0][1].weight = float('0.4')
+        network.synapse_layers[0][2].weight = float('0.5')
         
-        network.get_synapse_between(network.node_layers[0][1].id, network.node_layers[1][0].id).weight = float('0.2')
-        network.get_synapse_between(network.node_layers[0][1].id, network.node_layers[1][1].id).weight = float('0.6')
-        network.get_synapse_between(network.node_layers[0][1].id, network.node_layers[1][2].id).weight = float('1.2')
-    
+        network.synapse_layers[0][3].weight = float('0.2')
+        network.synapse_layers[0][4].weight = float('0.6')
+        network.synapse_layers[0][5].weight = float('1.2')
+        
     
     def set_node_layer_2(self, network: Network):
         network.node_layers[1][0].bias = float('3')
@@ -45,14 +45,15 @@ class ComplexNetworkCreator():
         
         
     def set_synapse_layer_2(self, network: Network):
-        network.get_synapse_between(network.node_layers[1][0].id, network.node_layers[2][0].id).weight = float('1.2')
-        network.get_synapse_between(network.node_layers[1][0].id, network.node_layers[2][1].id).weight = float('1.4')
+        network.synapse_layers[1][0].weight = float('1.2')
+        network.synapse_layers[1][1].weight = float('1.4')
         
-        network.get_synapse_between(network.node_layers[1][1].id, network.node_layers[2][0].id).weight = float('0.2')
-        network.get_synapse_between(network.node_layers[1][1].id, network.node_layers[2][1].id).weight = float('0.4')
+        network.synapse_layers[1][2].weight = float('0.2')
+        network.synapse_layers[1][3].weight = float('0.4')
         
-        network.get_synapse_between(network.node_layers[1][2].id, network.node_layers[2][0].id).weight = float('1.5')
-        network.get_synapse_between(network.node_layers[1][2].id, network.node_layers[2][1].id).weight = float('1.3')
+        network.synapse_layers[1][4].weight = float('1.5')
+        network.synapse_layers[1][5].weight = float('1.3')
+        
         
         
     def set_node_layer_3(self, network: Network):

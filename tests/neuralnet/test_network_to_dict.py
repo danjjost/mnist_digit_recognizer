@@ -53,13 +53,10 @@ class TestNetworkToDict(unittest.TestCase):
         #  O - O
         
         network.node_layers[0][0].bias = float(1.2)
-        input_node_id = network.node_layers[0][0].id
         
         network.synapse_layers[0][1].weight = float(1.3)
-        synapse_id = network.synapse_layers[0][1].id
 
         network.node_layers[1][1].bias = float(1.5)
-        output_node_id = network.node_layers[1][1].id
         
         dictionaryNetwork = NetworkToDict().to_dict(network)
         
@@ -70,13 +67,10 @@ class TestNetworkToDict(unittest.TestCase):
         second_synapse = reconstructedNetwork.synapse_layers[0][1]
         
         self.assertEqual(second_synapse.weight, float(1.3))
-        self.assertEqual(second_synapse.id, synapse_id)
         
         self.assertEqual(second_synapse.input_node.bias, float(1.2))
-        self.assertEqual(second_synapse.input_node.id, input_node_id)
         
         self.assertEqual(second_synapse.output_node.bias, float(1.5))
-        self.assertEqual(second_synapse.output_node.id, output_node_id)
         
     def test_dictionary_parsing_to_json(self):
         network = Network([1,2])
@@ -108,14 +102,3 @@ class TestNetworkToDict(unittest.TestCase):
         
         self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, float(1.5))
         self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, float(1.6))
-        
-    def test_network_properties(self):
-        network = Network([1,2])
-        original_id = network.id
-        
-        
-        dictionaryNetwork = NetworkToDict().to_dict(network)
-        reconstructedNetwork = NetworkToDict().from_dict(dictionaryNetwork)
-        
-        
-        self.assertEqual(reconstructedNetwork.id, original_id)

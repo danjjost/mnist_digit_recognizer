@@ -25,6 +25,7 @@ class TestMNISTEvaluation(unittest.TestCase):
         self.config.mode = self.TRAINING_MODE
         self.config.training_batch_size = self.BATCH_SIZE
         self.config.is_guessing_percent = 1.05
+        self.config.debug = False
 
     
     def test_evaluate_retrieves_batch_of_configured_size(self):
