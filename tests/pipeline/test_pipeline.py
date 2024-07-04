@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from src.pipeline.pipeline import Pipeline
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.population_modifier import PopulationModifier
 
 class TestPipeline(unittest.TestCase):
     def test_pipeline_calls_population_modifier_with_population(self):

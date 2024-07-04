@@ -2,7 +2,7 @@
 import unittest
 
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_generator import PopulationGenerator
+from src.pipeline.population_modifiers.population_generator import PopulationGenerator
 
 
 class TestPopulationGenerator(unittest.TestCase):

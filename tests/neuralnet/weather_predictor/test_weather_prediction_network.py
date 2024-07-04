@@ -2,7 +2,7 @@
 import unittest
 from config import Config
 from src.neuralnet.network import Network
-from src.pipeline.population_generator import PopulationGenerator
+from src.pipeline.population_modifiers.population_generator import PopulationGenerator
 from tests.neuralnet.weather_predictor.weather_conditions import WeatherConditions
 from tests.neuralnet.weather_predictor.weather_predictor_data_generator import WeatherPredictorDataGenerator
 

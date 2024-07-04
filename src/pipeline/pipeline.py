@@ -1,5 +1,5 @@
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.population_modifier import PopulationModifier
 
 
 class Pipeline():

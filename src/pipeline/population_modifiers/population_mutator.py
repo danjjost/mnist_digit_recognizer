@@ -2,7 +2,7 @@ from random import Random
 from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.population_modifier import PopulationModifier
 
 
 class PopulationMutator(PopulationModifier):
