@@ -3,7 +3,6 @@ import unittest
 from azure_config import AzureConfig
 from config import Config
 from src.digit_recognition.blob_storage_image_loader import BlobStorageImageLoader
-from src.digit_recognition.image_loader import ImageLoader
 
 
 class TestBlobStorageImageLoader(unittest.TestCase):
