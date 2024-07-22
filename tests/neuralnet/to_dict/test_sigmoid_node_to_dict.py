@@ -15,9 +15,9 @@ class TestSigmoidNodeToDict(unittest.TestCase):
         
         dict_representation = SigmoidNodeToDict().to_dict(sigmoid_node)
         
-        assert float(dict_representation['bias']) == float(0.5) # type: ignore
+        assert float(dict_representation['b']) == float(0.5) # type: ignore
         
         # should have no representation for the other fields.
-        assert 'activation' not in dict_representation
-        assert 'loss' not in dict_representation
-        assert 'gradients' not in dict_representation
+        assert 'a' not in dict_representation
+        assert 'l' not in dict_representation
+        assert 'g' not in dict_representation

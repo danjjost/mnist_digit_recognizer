@@ -31,7 +31,7 @@ class ImageLoader():
         return image
         
         
-    def get_random_image(self, base_path: str) -> MNISTImage:
+    def get_random_image(self, container_name: str) -> MNISTImage:
         """
         Returns a random image from the specified folder.
         The folder structure should be:
@@ -46,7 +46,7 @@ class ImageLoader():
         """
         
         random_digit = self.random.randint(0, 9)
-        path = base_path + str(random_digit)
+        path = container_name + str(random_digit)
         
         all_files_in_folder = os.listdir(path)
         random_file = self.random.choice(all_files_in_folder)

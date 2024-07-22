@@ -2,15 +2,15 @@ from config import Config
 from src.digit_recognition.mnist_evaluation import MNISTEvaluation
 from src.file.file_loader import FileLoader
 from src.file.file_writer import FileWriter
-from src.neuralnet.network_to_dict import NetworkToDict
-from src.pipeline.population_modifiers.load_population import LoadPopulation
+from src.neuralnet.to_dict.network_to_dict import NetworkToDict
+from src.pipeline.population_modifiers.cross.population_crosser import PopulationCrosser
+from src.pipeline.population_modifiers.evolver.population_evolver import PopulationEvolver
 from src.pipeline.population_modifiers.epoch.parallel_evaluation_epoch import ParallelEvaluationEpoch
 from src.pipeline.pipeline import Pipeline
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_evolver import PopulationEvolver
-from src.pipeline.population_modifiers.population_crosser import PopulationCrosser
+from src.pipeline.population_modifiers.file.load_population import LoadPopulation
+from src.pipeline.population_modifiers.file.save_population import SavePopulation
 from src.pipeline.population_modifiers.population_mutator import PopulationMutator
-from src.pipeline.population_modifiers.save_population import SavePopulation
 
 if __name__ == "__main__":
     config = Config()

@@ -1,4 +1,5 @@
 from typing import Optional
+from uuid import uuid4
 from config import Config
 from src.neuralnet.sigmoid_node import SigmoidNode
 from src.neuralnet.synapse import Synapse
@@ -7,6 +8,8 @@ from src.neuralnet.synapse import Synapse
 class Network():
 
     def __init__(self, dimensions: list[int], config: Optional[Config] = None):
+        self.id: str = str(uuid4())
+        
         self.config = config
         
         self.node_layers: list[list[SigmoidNode]] = []

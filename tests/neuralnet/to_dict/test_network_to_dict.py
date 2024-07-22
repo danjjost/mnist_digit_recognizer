@@ -21,19 +21,19 @@ class TestNetworkToDict(unittest.TestCase):
         network.node_layers[1][1].bias = float(1.6)
         
         
-        dictionaryNetwork = NetworkToDict().to_dict(network)
+        dictionary_network = NetworkToDict().to_dict(network)
         
         
-        reconstructedNetwork = NetworkToDict().from_dict(dictionaryNetwork)
+        reconstructed_network = NetworkToDict().from_dict(dictionary_network)
         
         
-        self.assertEqual(reconstructedNetwork.node_layers[0][0].bias, float(1.2))
+        self.assertEqual(reconstructed_network.node_layers[0][0].bias, float(1.2))
         
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][0].weight, float(1.3))
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][1].weight, float(1.4))
+        self.assertEqual(reconstructed_network.synapse_layers[0][0].weight, float(1.3))
+        self.assertEqual(reconstructed_network.synapse_layers[0][1].weight, float(1.4))
         
-        self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, float(1.5))
-        self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, float(1.6))
+        self.assertEqual(reconstructed_network.node_layers[1][0].bias, float(1.5))
+        self.assertEqual(reconstructed_network.node_layers[1][1].bias, float(1.6))
         
         
     def test_network_to_schema(self):
@@ -58,13 +58,13 @@ class TestNetworkToDict(unittest.TestCase):
 
         network.node_layers[1][1].bias = float(1.5)
         
-        dictionaryNetwork = NetworkToDict().to_dict(network)
+        dictionary_network = NetworkToDict().to_dict(network)
         
         
-        reconstructedNetwork = NetworkToDict().from_dict(dictionaryNetwork)
+        reconstructed_network = NetworkToDict().from_dict(dictionary_network)
         
         
-        second_synapse = reconstructedNetwork.synapse_layers[0][1]
+        second_synapse = reconstructed_network.synapse_layers[0][1]
         
         self.assertEqual(second_synapse.weight, float(1.3))
         
@@ -86,19 +86,39 @@ class TestNetworkToDict(unittest.TestCase):
         network.node_layers[1][1].bias = float(1.6)
         
         
-        dictionaryNetwork = NetworkToDict().to_dict(network)
+        dictionary_network = NetworkToDict().to_dict(network)
         
-        json_string = json.dumps(dictionaryNetwork)
+        json_string = json.dumps(dictionary_network)
         dict_from_json = json.loads(json_string)
 
         
-        reconstructedNetwork = NetworkToDict().from_dict(dict_from_json)
+        reconstructed_betwork = NetworkToDict().from_dict(dict_from_json)
         
         
-        self.assertEqual(reconstructedNetwork.node_layers[0][0].bias, float(1.2))
+        self.assertEqual(reconstructed_betwork.node_layers[0][0].bias, float(1.2))
         
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][0].weight, float(1.3))
-        self.assertEqual(reconstructedNetwork.synapse_layers[0][1].weight, float(1.4))
+        self.assertEqual(reconstructed_betwork.synapse_layers[0][0].weight, float(1.3))
+        self.assertEqual(reconstructed_betwork.synapse_layers[0][1].weight, float(1.4))
         
-        self.assertEqual(reconstructedNetwork.node_layers[1][0].bias, float(1.5))
-        self.assertEqual(reconstructedNetwork.node_layers[1][1].bias, float(1.6))
+        self.assertEqual(reconstructed_betwork.node_layers[1][0].bias, float(1.5))
+        self.assertEqual(reconstructed_betwork.node_layers[1][1].bias, float(1.6))
+        
+    def test_dictionary_includes_id(self):
+        network = Network([5, 4, 2])
+     
+
+        network_dictionary = NetworkToDict().to_dict(network)
+        reconstructedNetwork = NetworkToDict().from_dict(network_dictionary)
+        
+        
+        assert reconstructedNetwork.id == network.id
+    
+    def test_dictionary_includes_score(self):
+        network = Network([5, 4, 2])
+        network.score = 0.5
+
+        network_dictionary = NetworkToDict().to_dict(network)
+        reconstructedNetwork = NetworkToDict().from_dict(network_dictionary)
+        
+        
+        assert reconstructedNetwork.score == network.score

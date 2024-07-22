@@ -15,4 +15,4 @@ class TestSynapseToDict(unittest.TestCase):
 
         synapse_dict = SynapseToDict().to_dict(synapse)
 
-        self.assertEqual(float(synapse_dict.get('weight')), weight)
+        self.assertEqual(float(synapse_dict.get('w')), weight)

@@ -162,3 +162,5 @@ cython_debug/
 populations/
 MNIST/testing/
 MNIST/training/
+
+.env

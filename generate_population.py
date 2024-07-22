@@ -1,6 +1,6 @@
 from config import Config
+from src.pipeline.population_modifiers.file.save_population import SavePopulation
 from src.pipeline.population_modifiers.population_generator import PopulationGenerator
-from src.pipeline.population_modifiers.save_population import SavePopulation
 
 if __name__ == "__main__":
     config = Config()    

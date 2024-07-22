@@ -7,8 +7,10 @@ from src.neuralnet.to_dict.sigmoid_node_to_dict import NodeDict, SigmoidNodeToDi
 from src.neuralnet.to_dict.synapse_to_dict import SynapseDict, SynapseToDict
 
 class NetworkDictionary(TypedDict):
-    node_layers: list[list[NodeDict]]
-    synapse_layers: list[list[SynapseDict]]
+    id: str
+    s: float
+    n_l: list[list[NodeDict]]
+    s_l: list[list[SynapseDict]]
 
 
 class NetworkToDict():    
@@ -17,8 +19,10 @@ class NetworkToDict():
         synapse_layers = self.get_synapse_layers(network)
     
         return {
-            'node_layers': node_layers,
-            'synapse_layers': synapse_layers,
+            'id': network.id,
+            's': network.score,
+            'n_l': node_layers,
+            's_l': synapse_layers,
         }
 
     def get_synapse_layers(self, network: Network) -> list[list[SynapseDict]]:
@@ -58,6 +62,9 @@ class NetworkToDict():
         network_schema = self.get_network_schema(dictionary)
         network = Network(network_schema, config=config or Config())
 
+        network.id = dictionary['id']
+        network.score = dictionary['s']
+
         self.set_node_layers(network, dictionary)
         self.set_synapse_layers(network, dictionary)        
         
@@ -66,7 +73,7 @@ class NetworkToDict():
     def get_network_schema(self, dictionary: NetworkDictionary) -> list[int]:
         schema: list[int] = []
         
-        for node_layer in dictionary['node_layers']:
+        for node_layer in dictionary['n_l']:
             schema.append(len(node_layer))
             
         return schema
@@ -75,7 +82,7 @@ class NetworkToDict():
     def set_node_layers(self, network: Network, dictionary: NetworkDictionary):
         for layer_index in range(len(network.node_layers)):
             node_layer = network.node_layers[layer_index]
-            node_dict_layer = dictionary['node_layers'][layer_index]
+            node_dict_layer = dictionary['n_l'][layer_index]
             
             self.set_nodes(node_layer, node_dict_layer)
             
@@ -86,13 +93,13 @@ class NetworkToDict():
             node = node_layer[node_index]
             dict_node = node_dict_layer[node_index]
             
-            node.bias = float(dict_node.get('bias')) # type: ignore
+            node.bias = dict_node.get('b')
             
             
     def set_synapse_layers(self, network: Network, dictionary: NetworkDictionary):
         for layer_index in range(len(network.synapse_layers)):
             synapse_layer = network.synapse_layers[layer_index]
-            synapse_dict_layer = dictionary['synapse_layers'][layer_index]
+            synapse_dict_layer = dictionary['s_l'][layer_index]
             
             self.set_synapses(synapse_layer, synapse_dict_layer)
             
@@ -101,4 +108,4 @@ class NetworkToDict():
             synapse = synapse_layer[synapse_index]
             dict_synapse = synapse_dict_layer[synapse_index]
             
-            synapse.weight = float(dict_synapse.get('weight'))
+            synapse.weight = dict_synapse.get('w')
