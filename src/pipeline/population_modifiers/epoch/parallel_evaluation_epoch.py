@@ -12,7 +12,7 @@ class ParallelEvaluationEpoch(PopulationModifier):
             futures = [executor.submit(self.evaluation.evaluate, network) for network in population.population]
             
             for future in futures:
-                future.result() 
+                future.result()  
         
         self.log_population_metrics(population)
         
