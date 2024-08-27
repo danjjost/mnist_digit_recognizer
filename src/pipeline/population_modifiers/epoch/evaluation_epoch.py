@@ -1,10 +1,10 @@
-from src.pipeline.population_modifiers.epoch.evaluation import Evaluation
+from src.pipeline.population_modifiers.epoch.i_evaluation import IEvaluation
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
 
-class EvaluationEpoch(PopulationModifier):
-    def __init__(self, evaluation: Evaluation):
+class EvaluationEpoch(IPopulationModifier):
+    def __init__(self, evaluation: IEvaluation):
         self.evaluation = evaluation
 
     def run(self, population: PopulationDTO) -> PopulationDTO:

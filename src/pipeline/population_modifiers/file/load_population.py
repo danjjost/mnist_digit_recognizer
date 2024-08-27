@@ -4,10 +4,10 @@ from typing import Optional
 from src.file.file_loader import FileLoader
 from src.neuralnet.to_dict.network_to_dict import NetworkDictionary, NetworkToDict
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
 
-class LoadPopulation(PopulationModifier):
+class LoadPopulation(IPopulationModifier):
     def __init__(self,  path: str, network_to_dict: Optional[NetworkToDict] = None, file_loader: Optional[FileLoader] = None):
         self.path = path
 

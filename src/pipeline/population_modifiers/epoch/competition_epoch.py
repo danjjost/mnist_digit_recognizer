@@ -1,10 +1,10 @@
-from src.pipeline.population_modifiers.epoch.competition import Competition
+from src.pipeline.population_modifiers.epoch.i_competition import ICompetition
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
 
-class CompetitionEpoch(PopulationModifier):
-    def __init__(self, competition: Competition):
+class CompetitionEpoch(IPopulationModifier):
+    def __init__(self, competition: ICompetition):
         self.competition = competition
 
     def run(self, population: PopulationDTO):

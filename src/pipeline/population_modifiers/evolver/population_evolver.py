@@ -2,12 +2,12 @@
 from typing import Optional
 
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 from src.pipeline.population_modifiers.evolver.population_destroyer import PopulationDestroyer
 from src.pipeline.population_modifiers.evolver.population_rebuilder import PopulationRebuilder
 
 
-class PopulationEvolver(PopulationModifier):
+class PopulationEvolver(IPopulationModifier):
     
     def __init__(self, 
             percent_predation: float = 0.1,

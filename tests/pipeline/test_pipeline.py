@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from src.pipeline.pipeline import Pipeline
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
 class TestPipeline(unittest.TestCase):
     def test_pipeline_calls_population_modifier_with_population(self):
@@ -42,8 +42,8 @@ class TestPipeline(unittest.TestCase):
     def test_pipeline_chains_multiple_population_modifiers(self):
         pipeline = Pipeline()
         
-        population_modifier_1 = Mock(spec=PopulationModifier)
-        population_modifier_2 = Mock(spec=PopulationModifier)
+        population_modifier_1 = Mock(spec=IPopulationModifier)
+        population_modifier_2 = Mock(spec=IPopulationModifier)
         pipeline.add(population_modifier_1)
         pipeline.add(population_modifier_2)
         

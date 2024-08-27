@@ -3,12 +3,12 @@ from typing import Optional
 from config import Config
 from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifiers.cross.network_crosser import NetworkCrosser
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 from src.pipeline.top_percentile_selector import TopPercentileSelector
 from src.utilities.number_of_crosses_calculator import NumberOfCrossesCalculator
 
 
-class PopulationCrosser(PopulationModifier):
+class PopulationCrosser(IPopulationModifier):
     def __init__(self, 
                  config: Config, 
                  network_crosser: NetworkCrosser = NetworkCrosser(), 

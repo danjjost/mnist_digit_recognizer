@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import Mock
 
 from src.neuralnet.network import Network
-from src.pipeline.population_modifiers.epoch.competition import Competition
+from src.pipeline.population_modifiers.epoch.i_competition import ICompetition
 from src.pipeline.population_modifiers.epoch.competition_epoch import CompetitionEpoch
 from src.pipeline.population import PopulationDTO
 
@@ -13,7 +13,7 @@ class TestCompetitionEpoch(unittest.TestCase):
         population = [Network([1, 1]), Network([1, 1])]
         populationDto = PopulationDTO(population)
         
-        competition = Mock(spec=Competition)
+        competition = Mock(spec=ICompetition)
         
         epoch = CompetitionEpoch(competition)
         
@@ -46,7 +46,7 @@ class TestCompetitionEpoch(unittest.TestCase):
         
 
         
-class MockCompetition(Competition):
+class MockCompetition(ICompetition):
     def __init__(self, override_weights: Union[float, None] = None):
         self.override_weights = override_weights
     

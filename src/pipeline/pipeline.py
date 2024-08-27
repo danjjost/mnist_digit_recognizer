@@ -1,12 +1,12 @@
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
 
 class Pipeline():
     def __init__(self):
-        self.pipeline: list[PopulationModifier] = []
+        self.pipeline: list[IPopulationModifier] = []
     
-    def add(self, population_modifier: PopulationModifier):
+    def add(self, population_modifier: IPopulationModifier):
         self.pipeline.append(population_modifier)
     
     def run(self, population: PopulationDTO) -> PopulationDTO:

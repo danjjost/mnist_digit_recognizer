@@ -19,5 +19,8 @@
     "azureFunctions.projectLanguage": "Python",
     "azureFunctions.projectRuntime": "~4",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.projectLanguageModel": 2
+    "azureFunctions.projectLanguageModel": 2,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#096b00",  // Blue color for client repo
+    }
 }

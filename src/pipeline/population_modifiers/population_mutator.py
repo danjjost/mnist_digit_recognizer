@@ -2,10 +2,10 @@ from random import Random
 from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
 
-class PopulationMutator(PopulationModifier):
+class PopulationMutator(IPopulationModifier):
     def __init__(self, config: Config = Config()): 
         self.config = config
         self.mutation_percent: float = config.percent_mutation
