@@ -22,7 +22,7 @@ class Config():
         self.training_batch_size: int = 32
         
         # The number of networks in the population
-        self.population_size: int = 100
+        self.population_size: int = 6
         
         # The number of nodes in each layer of the network
         self.schema: list[int] = [784, 100, 10]
@@ -55,7 +55,7 @@ class Config():
         
         # For use with the remote evaluation epoch
         # After this amount of time has passed, any non-updated blobs will remain non-updated and the process will continue.
-        self.poll_timeout_ms: float = 60 * 1000 # 60 seconds
+        self.poll_timeout_ms: float = 5 * 60 * 1000 # 5 minutes
         
         # For use with the remote evaluation epoch
         # The amount of time to sleep between queries to blob storage for updated blobs
