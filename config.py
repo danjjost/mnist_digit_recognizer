@@ -42,7 +42,7 @@ class Config():
         self.percent_predation: float = 0.01
         
         # If True, logging will output verbosely
-        self.debug: bool = False
+        self.debug: bool = True
         
         # If a network guesses a single value more than the is_guessing_percent of the time, 
         # it will be penalized by is_guessing_penalty
@@ -59,4 +59,4 @@ class Config():
         
         # For use with the remote evaluation epoch
         # The amount of time to sleep between queries to blob storage for updated blobs
-        self.polling_rate_ms: float = 1000 
+        self.polling_rate_ms: float = 3000 

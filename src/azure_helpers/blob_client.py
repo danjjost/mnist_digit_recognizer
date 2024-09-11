@@ -4,6 +4,7 @@ from src.neuralnet.to_dict.network_to_dict import NetworkToDict
 from azure.storage.blob import ContainerClient
 
 from src.pipeline.population import PopulationDTO
+from src.utilities.logger import Logger
 
 
 class BlobClient:
@@ -12,11 +13,14 @@ class BlobClient:
         self.container = container
 
     def upload_population(self, population: PopulationDTO):
+        Logger().debug(f'BlobClient - Uploading population of size "{len(population.population)}" to blob storage...')
         self.upload_batch(population.population)
+        Logger().debug(f'BlobClient - Finished uploading batch of size "{len(population.population)}" to blob storage.')
 
     def upload_batch (self, networks: list[Network]):
         for network in networks:
             self.upload_blob(network)        
+        
     
     def upload_blob(self, network: Network):
         network_dictionary = self.network_to_dict.to_dict(network)

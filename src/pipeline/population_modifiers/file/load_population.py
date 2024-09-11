@@ -5,6 +5,7 @@ from src.file.file_loader import FileLoader
 from src.neuralnet.to_dict.network_to_dict import NetworkDictionary, NetworkToDict
 from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
+from src.utilities.logger import Logger
 
 
 class LoadPopulation(IPopulationModifier):
@@ -15,6 +16,7 @@ class LoadPopulation(IPopulationModifier):
         self.network_to_dict = network_to_dict if network_to_dict is not None else NetworkToDict()
 
     def run(self, population: PopulationDTO) -> PopulationDTO:
+        Logger().debug(f'LoadPopulation - Starting...')
         population.clear()
 
         population_json = self.file_loader.load(self.path)
@@ -30,7 +32,8 @@ class LoadPopulation(IPopulationModifier):
             network = self.network_to_dict.from_dict(json_object)
             population.population.append(network)
             
-        print(f'Loaded population of size {len(population.population)} from {self.path}.')
+        Logger().debug(f'LoadPopulation - Loaded population of size "{len(population.population)}" from "{self.path}".')
+        Logger().debug(f'LoadPopulation - Finished')
         return population
     
     def set_path(self, path: str) -> None:
