@@ -5,7 +5,7 @@ from azure.storage.blob import ContainerClient
 
 from src.pipeline.population import PopulationDTO
 
-# Converts a network to json and uploads it to a blob
+
 class BlobClient:
     def __init__(self, network_to_dict: NetworkToDict, container: ContainerClient) -> None:
         self.network_to_dict = network_to_dict
@@ -29,3 +29,17 @@ class BlobClient:
         blobs = self.container.list_blobs()
         for blob in blobs:
             self.container.delete_blob(blob.name)
+            
+    def delete(self, id: str):
+        blob_client = self.container.get_blob_client(blob=id)
+        blob_client.delete_blob()
+        
+    def download(self, id: str) -> Network:
+        blob_client = self.container.get_blob_client(blob=id)
+        network_json = blob_client.download_blob().content_as_text() #type: ignore
+        network_dict = json.loads(network_json)
+        return self.network_to_dict.from_dict(network_dict)
+    
+    def get_all_ids(self) -> list[str]:
+        blobs = self.container.list_blobs()
+        return [blob.name for blob in blobs]

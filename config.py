@@ -41,7 +41,7 @@ class Config():
         # The percent of the population that will be killed off and replaced each generation by the population evolver
         self.percent_predation: float = 0.01
         
-        # 
+        # If True, logging will output verbosely
         self.debug: bool = False
         
         # If a network guesses a single value more than the is_guessing_percent of the time, 
@@ -52,3 +52,11 @@ class Config():
         # What percentage of the population to consider the 'top percentile'
         # This is used for selecting the best networks to cross
         self.top_percentile: float = 0.1
+        
+        # For use with the remote evaluation epoch
+        # After this amount of time has passed, any non-updated blobs will remain non-updated and the process will continue.
+        self.poll_timeout_ms: float = 60 * 1000 # 60 seconds
+        
+        # For use with the remote evaluation epoch
+        # The amount of time to sleep between queries to blob storage for updated blobs
+        self.polling_rate_ms: float = 1000 

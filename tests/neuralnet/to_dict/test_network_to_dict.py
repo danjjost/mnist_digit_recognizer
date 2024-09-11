@@ -42,7 +42,7 @@ class TestNetworkToDict(unittest.TestCase):
         network_dictionary = NetworkToDict().to_dict(network)
      
         
-        schema = NetworkToDict().get_network_schema(network_dictionary)
+        schema = NetworkToDict().__get_network_schema(network_dictionary)
         
         
         self.assertEqual(schema, [5, 4, 2])
