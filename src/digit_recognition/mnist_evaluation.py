@@ -3,10 +3,10 @@ from config import Config, NetworkEvaluationMode
 from src.digit_recognition.image_loader import ImageLoader, MNISTImage
 from src.digit_recognition.mnist_image_evaluator import MNISTImageEvaluator
 from src.neuralnet.network import Network
-from src.pipeline.population_modifiers.epoch.evaluation import Evaluation
+from src.pipeline.population_modifiers.epoch.i_evaluation import IEvaluation
 
 
-class MNISTEvaluation(Evaluation):
+class MNISTEvaluation(IEvaluation):
     
     def __init__(self, 
         config: Optional[Config] = None, 

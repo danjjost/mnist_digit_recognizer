@@ -1,6 +1,6 @@
 from src.neuralnet.network import Network
 
 
-class Evaluation():
+class IEvaluation():
     def evaluate(self, network: Network):
         pass

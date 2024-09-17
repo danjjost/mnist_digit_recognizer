@@ -2,22 +2,25 @@ from random import Random
 from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
+from src.utilities.logger import Logger
 
 
-class PopulationMutator(PopulationModifier):
+class PopulationMutator(IPopulationModifier):
     def __init__(self, config: Config = Config()): 
         self.config = config
         self.mutation_percent: float = config.percent_mutation
         self.mutation_step: float = config.mutation_step
     
     def run(self, population: PopulationDTO) -> PopulationDTO:
+        Logger().debug(f'PopulationMutator - Starting...')
         if self.config.debug:
             print(f'PopulationMutator - Mutating population of {len(population.population)} individuals.')
         
         for network in population.population:
             self.mutate_network(network)
             
+        Logger().debug(f'PopulationMutator - Finished')
         return population
             
     def mutate_network(self, network: Network):

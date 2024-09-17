@@ -4,10 +4,10 @@ from typing import Optional
 from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
 
-class PopulationGenerator(PopulationModifier):
+class PopulationGenerator(IPopulationModifier):
     def generate(self, count: int, schema: list[int], config: Optional[Config] = None) -> PopulationDTO:
         networks: list[Network] = []
         

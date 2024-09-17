@@ -1,10 +1,10 @@
 from concurrent.futures import ThreadPoolExecutor
-from src.pipeline.population_modifiers.epoch.evaluation import Evaluation
+from src.pipeline.population_modifiers.epoch.i_evaluation import IEvaluation
 from src.pipeline.population import PopulationDTO
-from src.pipeline.population_modifiers.population_modifier import PopulationModifier
+from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
-class ParallelEvaluationEpoch(PopulationModifier):
-    def __init__(self, evaluation: Evaluation):
+class ParallelEvaluationEpoch(IPopulationModifier):
+    def __init__(self, evaluation: IEvaluation):
         self.evaluation = evaluation
 
     def run(self, population: PopulationDTO) -> PopulationDTO:
@@ -12,7 +12,7 @@ class ParallelEvaluationEpoch(PopulationModifier):
             futures = [executor.submit(self.evaluation.evaluate, network) for network in population.population]
             
             for future in futures:
-                future.result() 
+                future.result()  
         
         self.log_population_metrics(population)
         
