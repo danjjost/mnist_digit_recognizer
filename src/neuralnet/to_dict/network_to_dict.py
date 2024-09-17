@@ -29,7 +29,7 @@ class NetworkToDict():
         }
         
     def from_dict(self, dictionary: NetworkDictionary) -> Network:
-        network_schema = self.__get_network_schema(dictionary)
+        network_schema = self.get_network_schema(dictionary)
         network = Network(network_schema, self.config)
 
         network.id = dictionary['id']
@@ -76,7 +76,7 @@ class NetworkToDict():
                 
         return node_dict_layers
     
-    def __get_network_schema(self, dictionary: NetworkDictionary) -> list[int]:
+    def get_network_schema(self, dictionary: NetworkDictionary) -> list[int]:
         schema: list[int] = []
         
         for node_layer in dictionary['n_l']:

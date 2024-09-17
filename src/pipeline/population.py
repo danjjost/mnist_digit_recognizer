@@ -1,4 +1,3 @@
-import uuid
 from src.neuralnet.network import Network
 
 

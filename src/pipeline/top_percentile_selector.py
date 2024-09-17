@@ -10,6 +10,10 @@ class TopPercentileSelector():
     def select(self, population: PopulationDTO) -> list[Network]:
         population.population.sort(key=lambda network: network.score, reverse=True)
         
-        top_percentile = population.population[:int(len(population.population) * self.percentile)]
+        max_element = int(len(population.population) * self.percentile)
+        if max_element == 0:
+            max_element = 1
+            
+        top_percentile = population.population[:max_element]
         
         return top_percentile

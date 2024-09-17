@@ -21,8 +21,8 @@ class Config():
         # The number of training batches to run before evaluating the network and applying gradients
         self.training_batch_size: int = 32
         
-        # The number of networks in the population
-        self.population_size: int = 6
+        # The number of networks in the population, this may become problematic if the population is less than 10
+        self.population_size: int = 100
         
         # The number of nodes in each layer of the network
         self.schema: list[int] = [784, 100, 10]
@@ -39,7 +39,7 @@ class Config():
         self.cross_percent: float = 0.02
         
         # The percent of the population that will be killed off and replaced each generation by the population evolver
-        self.percent_predation: float = 0.01
+        self.percent_predation: float = 0.05
         
         # If True, logging will output verbosely
         self.debug: bool = True
@@ -55,8 +55,8 @@ class Config():
         
         # For use with the remote evaluation epoch
         # After this amount of time has passed, any non-updated blobs will remain non-updated and the process will continue.
-        self.poll_timeout_ms: float = 5 * 60 * 1000 # 5 minutes
+        self.poll_timeout_ms: float = 60 * 60 * 1000 # 60 minutes
         
         # For use with the remote evaluation epoch
         # The amount of time to sleep between queries to blob storage for updated blobs
-        self.polling_rate_ms: float = 3000 
+        self.polling_rate_ms: float = 10 * 1000 # 10 seconds

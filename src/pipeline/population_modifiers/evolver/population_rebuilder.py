@@ -5,6 +5,7 @@ from src.neuralnet.network import Network
 from src.neuralnet.to_dict.network_to_dict import NetworkToDict
 from src.pipeline.population import PopulationDTO
 from src.pipeline.top_percentile_selector import TopPercentileSelector
+from src.utilities.logger import Logger
 
 
 class PopulationRebuilder():
@@ -12,9 +13,10 @@ class PopulationRebuilder():
         self.top_percentile_selector = top_percentile_selector or TopPercentileSelector(Config())
                 
     def rebuild(self, population: PopulationDTO, number_to_copy: int) -> PopulationDTO:
-        print(f'PopulationRebuilder - Rebuilding {number_to_copy} individuals from population of {len(population.population)} individuals.')
+        Logger().debug(f'PopulationRebuilder - Rebuilding "{number_to_copy}" individuals from population of "{len(population.population)}" individuals.')
         
         top_percentile_networks = self.top_percentile_selector.select(population)
+        Logger().debug(f'PopulationRebuilder - Selected "{len(top_percentile_networks)}" networks from the top percentile.')
         
         for _ in range(number_to_copy):
             network = Random().choice(top_percentile_networks)

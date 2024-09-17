@@ -12,8 +12,12 @@ from src.pipeline.population_modifiers.population_generator import PopulationGen
 
 class TestBlobPoller(unittest.TestCase):
     def setUp(self) -> None:
+        self.config = Config()
+        self.config.poll_timeout_ms = 250
+        self.config.polling_rate_ms = 5
+        
         self.blob_client = MagicMock(spec=BlobClient)
-        self.blob_poller = BlobPoller(self.blob_client)
+        self.blob_poller = BlobPoller(self.blob_client, self.config)
 
     def test_updates_network_with_updates_from_blob_storage_output(self):
         population = PopulationGenerator().generate(2, [1,1])
@@ -37,11 +41,8 @@ class TestBlobPoller(unittest.TestCase):
 
         
     def test_update_polling_is_cancelled_after_timeout_expires(self):
-        config = Config()
-        config.poll_timeout_ms = 250
-        config.polling_rate_ms = 5
         population = PopulationGenerator().generate(2, [1,1])
-        self.blob_poller = BlobPoller(self.blob_client, config)
+        self.blob_poller = BlobPoller(self.blob_client, self.config)
         
         
         time_started = self.get_current_time_ms()
