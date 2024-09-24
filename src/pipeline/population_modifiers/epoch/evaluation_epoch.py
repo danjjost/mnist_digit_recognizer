@@ -18,11 +18,13 @@ class EvaluationEpoch(IPopulationModifier):
     def log_population_metrics(self, population: PopulationDTO):
         try:
             population.average_score = sum([network.score for network in population.population]) / len(population.population)
-            population.min_score = min([network.score for network in population.population])
-            population.max_score = max([network.score for network in population.population])
+            min_network = min(population.population, key=lambda network: network.score)
+            population.min_score = min_network.score
+            max_network = max(population.population, key=lambda network: network.score)
+            population.max_score = max_network.score
             print(f'EvaluationEpoch - Evaluation Epoch complete!')
             print(f'EvaluationEpoch - Average score: {population.average_score}')
-            print(f'EvaluationEpoch - Min score: {population.min_score}')
-            print(f'EvaluationEpoch - Max score: {population.max_score}')
+            print(f'EvaluationEpoch - Min score: {min_network.score}, {min_network.id}')
+            print(f'EvaluationEpoch - Max score: {max_network.score}, {max_network.id}')
         except:
             print('EvaluationEpoch - Error calculating population metrics')

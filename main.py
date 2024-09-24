@@ -7,7 +7,9 @@ from src.file.file_loader import FileLoader
 from src.file.file_writer import FileWriter
 from src.neuralnet.to_dict.network_to_dict import NetworkToDict
 from src.pipeline.population_modifiers.cross.population_crosser import PopulationCrosser
+from src.pipeline.population_modifiers.epoch.evaluation_epoch import EvaluationEpoch
 from src.pipeline.population_modifiers.epoch.network_evaluation.remote_evaluation_epoch import RemoteEvaluationEpoch
+from src.pipeline.population_modifiers.epoch.parallel_evaluation_epoch import ParallelEvaluationEpoch
 from src.pipeline.population_modifiers.evolver.population_evolver import PopulationEvolver
 from src.pipeline.pipeline import Pipeline
 from src.pipeline.population import PopulationDTO
@@ -45,7 +47,8 @@ if __name__ == "__main__":
 
     load_population = LoadPopulation(config.input_file_path, network_to_dict, file_loader)
 
-    epoch = RemoteEvaluationEpoch(input_blob_client, output_blob_client, blob_poller)
+    #epoch = RemoteEvaluationEpoch(input_blob_client, output_blob_client, blob_poller)
+    epoch = ParallelEvaluationEpoch(evaluation)
 
     mutator = PopulationMutator(config)
     evolver = PopulationEvolver(config.percent_predation)
@@ -64,7 +67,7 @@ if __name__ == "__main__":
     pipeline.add(load_population)
     pipeline.add(epoch)
     pipeline.add(evolver)
-    pipeline.add(genetic_mutator)
+    #pipeline.add(genetic_mutator)
     pipeline.add(mutator)
     pipeline.add(save_population)
 
