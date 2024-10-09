@@ -3,7 +3,7 @@ import unittest
 from config import Config
 from src.neuralnet.network import Network
 from src.pipeline.population import PopulationDTO
-from src.pipeline.top_percentile_selector import TopPercentileSelector
+from src.utilities.top_percentile_selector import TopPercentileSelector
 
 
 class TestTopPercentileSelector(unittest.TestCase):

@@ -4,8 +4,8 @@ from config import Config
 from src.neuralnet.network import Network
 from src.neuralnet.to_dict.network_to_dict import NetworkToDict
 from src.pipeline.population import PopulationDTO
-from src.pipeline.top_percentile_selector import TopPercentileSelector
 from src.utilities.logger import Logger
+from src.utilities.top_percentile_selector import TopPercentileSelector
 
 
 class PopulationRebuilder():
