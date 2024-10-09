@@ -8,12 +8,13 @@ from src.pipeline.population_modifiers.i_population_modifier import IPopulationM
 class TestPipeline(unittest.TestCase):
     def test_pipeline_calls_population_modifier_with_population(self):
         pipeline = Pipeline()
-        
-        population_modifier = Mock()
-        pipeline.add(population_modifier)
-        
+
         population = PopulationDTO()
 
+        population_modifier = Mock()
+        population_modifier.run.return_value = population
+        pipeline.add(population_modifier)
+        
         
         pipeline.run(population)
 

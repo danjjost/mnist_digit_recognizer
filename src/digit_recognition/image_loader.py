@@ -7,6 +7,7 @@ import numpy as np
 from PIL import Image
 
 from src.digit_recognition.MNISTImage import MNISTImage
+from src.digit_recognition.convolution.image_convolver import ImageConvolver
         
 class ImageLoader():
     def __init__(self, config: Optional[Config], random: Optional[Random]):
@@ -19,6 +20,7 @@ class ImageLoader():
         path = self.config.mnist_training_folder
         
         image = self.get_random_image(path)
+        image.convolved_image_array = ImageConvolver().convolve(image.image_array)
         
         return image
     
@@ -27,6 +29,7 @@ class ImageLoader():
         path = self.config.mnist_testing_folder
         
         image = self.get_random_image(path)
+        image.convolved_image_array = ImageConvolver().convolve(image.image_array)
         
         return image
         

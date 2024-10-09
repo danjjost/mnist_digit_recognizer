@@ -11,8 +11,10 @@ class TestMNISTImageEvaluator(unittest.TestCase):
         network = self.create_mock_network(output_index=5)
 
         image = MagicMock(spec=MNISTImage)
-        image_array = [0.0] * 10
+        image_array = [1.0] * 10
         image.image_array = image_array
+        convolved_image_array = [0.0] * 10
+        image.convolved_image_array = convolved_image_array
 
         expected_label = 5
         image.label = expected_label
@@ -26,7 +28,7 @@ class TestMNISTImageEvaluator(unittest.TestCase):
         evaluator.evaluate_image(network, image)
 
         
-        network.set_input.assert_called_with(image_array)        
+        network.set_input.assert_called_with(image_array + convolved_image_array)        
         network.feed_forward.assert_called()
 
         expected_output = [0.0] * 10
@@ -38,8 +40,10 @@ class TestMNISTImageEvaluator(unittest.TestCase):
         network = self.create_mock_network(output_index=5)
 
         image = MagicMock(spec=MNISTImage)
-        image_array = [0.0] * 10
+        image_array = [1.0] * 10
         image.image_array = image_array
+        convolved_image_array = [0.0] * 10
+        image.convolved_image_array = convolved_image_array
 
         expected_label = 5
         image.label = expected_label
@@ -53,7 +57,7 @@ class TestMNISTImageEvaluator(unittest.TestCase):
         evaluator.evaluate_image(network, image)
 
         
-        network.set_input.assert_called_with(image_array)        
+        network.set_input.assert_called_with(image_array + convolved_image_array)        
         network.feed_forward.assert_called()
 
         network.back_propagate.assert_not_called()
@@ -64,8 +68,10 @@ class TestMNISTImageEvaluator(unittest.TestCase):
         network.score = 0
 
         image = MagicMock(spec=MNISTImage)
-        image_array = [0.0] * 10
+        image_array = [1.0] * 10
         image.image_array = image_array
+        convolved_image_array = [0.0] * 10
+        image.convolved_image_array = convolved_image_array
 
         expected_label = 5
         image.label = expected_label
@@ -86,8 +92,10 @@ class TestMNISTImageEvaluator(unittest.TestCase):
         network.score = 0
 
         image = MagicMock(spec=MNISTImage)
-        image_array = [0.0] * 10
+        image_array = [1.0] * 10
         image.image_array = image_array
+        convolved_image_array = [0.0] * 10
+        image.convolved_image_array = convolved_image_array
 
         expected_label = 5
         image.label = expected_label

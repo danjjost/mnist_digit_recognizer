@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     pipeline.add(load_population)
     pipeline.add(epoch)
-    pipeline.add(evolver)
+    #pipeline.add(evolver)
     #pipeline.add(genetic_mutator)
     pipeline.add(mutator)
     pipeline.add(save_population)
