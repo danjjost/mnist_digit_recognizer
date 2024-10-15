@@ -1,5 +1,4 @@
 from config import Config
-from src.digit_recognition.mnist_image_evaluator import MNISTImageEvaluator
 from src.pipeline.population import PopulationDTO
 from src.pipeline.population_modifiers.i_population_modifier import IPopulationModifier
 
@@ -24,11 +23,5 @@ class Pipeline():
         
         print(f"Running score: {self.total_score}/{self.total_possible_score}")
         print(f"Running percent correct: {(0.0 + self.total_score)/self.total_possible_score}")
-        
-        #with MNISTImageEvaluator.scores_lock:
-        #    print("Correct predictions per digit:")
-        #    for digit in range(10):
-        #        score = MNISTImageEvaluator.scores[digit]
-        #        print(f"Digit {digit}: {score} correct predictions")
         
         return previous_population

@@ -30,9 +30,6 @@ class MNISTEvaluation(IEvaluation):
             likely_digits.append(likely_digit)
 
         self.apply_gradients_if_training(network)
-        
-        if self.is_guessing(likely_digits):
-            network.score -= self.config.is_guessing_penalty
             
         if self.config.debug:
             print(f'MNISTEvaluation - Network scored {network.score}/{self.config.training_batch_size}.')
@@ -43,16 +40,6 @@ class MNISTEvaluation(IEvaluation):
                 print("MNISTEvaluation - Applying Gradients")
             
             network.apply_gradients()
-
-    
-    def is_guessing(self, likely_digits: list[int]) -> bool:        
-        most_common_digit = max(set(likely_digits), key=likely_digits.count)
-        
-        if likely_digits.count(most_common_digit) / len(likely_digits) > self.config.is_guessing_percent:
-            return True
-        
-        return False
-        
     
     def get_image(self) -> MNISTImage:
         if self.config.mode == NetworkEvaluationMode.TEST:

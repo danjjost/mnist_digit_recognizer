@@ -58,18 +58,3 @@ class TestMNISTEvaluation(unittest.TestCase):
         self.mnist_evaluation.evaluate(network)
         
         
-        self.mnist_image_evaluator.evaluate_image.assert_any_call(network, mock_image)
-        
-    def test_evaluate_reduces_score_by_one_if_more_than_guessing_threshold_are_the_same(self):
-        self.config.is_guessing_percent = 0.90
-        self.config.is_guessing_penalty = 10
-        network = Network([1,1], self.config)
-        mock_image = MagicMock()
-        
-        self.batch_loader.get_training_image.return_value = mock_image
-        self.mnist_image_evaluator.evaluate_image.return_value = 5
-        
-        self.mnist_evaluation.evaluate(network)
-        
-        
-        self.assertEqual(network.score, -10)

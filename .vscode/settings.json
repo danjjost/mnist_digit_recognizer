@@ -22,5 +22,7 @@
     "azureFunctions.projectLanguageModel": 2,
     "workbench.colorCustomizations": {
         "activityBar.background": "#096b00",  // Blue color for client repo
-    }
+    },
+    "files.autoSave": "afterDelay",
+    "editor.formatOnSave": true
 }
