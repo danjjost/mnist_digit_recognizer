@@ -16,7 +16,6 @@ class MNISTEvaluation(IEvaluation):
         self.config = config or Config()
         self.batch_loader = batch_loader or ImageLoader(self.config, None)
         self.mnist_image_evaluator = mnist_image_evaluator or MNISTImageEvaluator(self.config)
-        self.config.learning_rate = 1
         
         
     def evaluate(self, network: Network):

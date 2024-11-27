@@ -9,8 +9,8 @@ class Config():
     def __init__(self):
         self.mode = NetworkEvaluationMode.TRAIN
         
-        self.input_file_path = "./populations/population100_2136_10.json"
-        self.output_file_path = "./populations/population100_2136_10.json"
+        self.input_file_path = "./populations/population20_1356_10.json"
+        self.output_file_path = "./populations/population20_1356_10.json"
 
         self.mnist_testing_folder = "./MNIST/testing/"
         self.mnist_training_folder = "./MNIST/training/"
@@ -25,10 +25,10 @@ class Config():
         self.training_batch_size: int = 32
         
         # The number of networks in the population.
-        self.population_size: int = 100
+        self.population_size: int = 20
         
         # The number of nodes in each layer of the network
-        self.schema: list[int] = [2136, 10]
+        self.schema: list[int] = [1352, 10]
         
         # The starting scale of the weights and biases of the network
         self.initialization_scale: float = 0.01
@@ -40,7 +40,7 @@ class Config():
         self.mutation_step: float = 0.003
         
         # The percent of the population that will be deleted and replaced each generation by the population evolver
-        self.percent_predation: float = 0.01
+        self.percent_predation: float = 0.05
         
         # If True, logging will output verbosely
         self.debug: bool = False

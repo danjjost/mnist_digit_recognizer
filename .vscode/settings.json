@@ -1,7 +1,9 @@
 {
     "python.languageServer": "Pylance",
     "python.testing.unittestEnabled": true,
-    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoSearchPaths": true,
+    "python.analysis.useLibraryCodeForTypes": true,
     "python.testing.unittestArgs": [
         "-v",
         "-s",
@@ -13,6 +15,12 @@
     "python.testing.pytestArgs": [
         "."
     ],
+    "python.analysis.diagnosticSeverityOverrides": {
+      "reportUnknownVariableType": "none",
+      "reportUnknownMemberType": "none",
+      "reportAttributeAccessIssue": "none",
+      "reportUnknownArgumentType": "none"
+    },
     "azureFunctions.deploySubpath": "src\\azure_function_evaluator",
     "azureFunctions.scmDoBuildDuringDeployment": true,
     "azureFunctions.pythonVenv": ".venv",

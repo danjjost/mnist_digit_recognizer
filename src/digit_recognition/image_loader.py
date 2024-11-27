@@ -34,7 +34,7 @@ class ImageLoader():
         return image
         
         
-    def get_random_image(self, container_name: str) -> MNISTImage:
+    def get_random_image(self, image_collection_path: str) -> MNISTImage:
         """
         Returns a random image from the specified folder.
         The folder structure should be:
@@ -48,21 +48,25 @@ class ImageLoader():
             - another_1_image.jpg
         """
         
+
         random_digit = self.random.randint(0, 9)
-        path = container_name + str(random_digit)
+        image_collection_path = image_collection_path + str(random_digit)
         
-        all_files_in_folder = os.listdir(path)
+        all_files_in_folder = os.listdir(image_collection_path)
         random_file = self.random.choice(all_files_in_folder)
         
-        file_path = path + "/" + random_file
+        file_path = image_collection_path + "/" + random_file
         
+        if self.config.debug:
+            print(f'ImageLoader - Loading image from {file_path}')
+
         image_array = self.load_image(file_path)
         
         return MNISTImage(image_array, random_digit)
     
     
     def load_image(self, file_path: str) -> list[float]:
-        img = Image.open(file_path) # type: ignore
+        img = Image.open(file_path)
 
         img_gray = img.convert('L')
         img_array = np.array(img_gray)

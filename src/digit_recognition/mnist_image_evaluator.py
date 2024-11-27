@@ -14,7 +14,8 @@ class MNISTImageEvaluator:
         self.mode: NetworkEvaluationMode = self.config.mode
     
     def evaluate_image(self, network: Network, image: MNISTImage):        
-        network.set_input(image.image_array + image.convolved_image_array)
+        #network.set_input(image.image_array + image.convolved_image_array)
+        network.set_input(image.convolved_image_array)
         network.feed_forward()
         outputs = network.get_outputs()
         
@@ -24,8 +25,8 @@ class MNISTImageEvaluator:
         
         if likely_digit == image.label:
             network.score += 1
-        #    with MNISTImageEvaluator.scores_lock:
-        #        MNISTImageEvaluator.scores[likely_digit] += 1
+            with MNISTImageEvaluator.scores_lock:
+                MNISTImageEvaluator.scores[likely_digit] += 1
         
         if self.mode == NetworkEvaluationMode.TRAIN:
             if self.config.debug: 
